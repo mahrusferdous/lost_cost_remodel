@@ -1,10 +1,14 @@
 package lostcost.lostcost.controller;
 
 import com.graphhopper.GHResponse;
+import com.graphhopper.util.shapes.GHPoint;
+import lostcost.lostcost.dto.OsmPointDTO;
 import lostcost.lostcost.dto.RouteRequest;
 import lostcost.lostcost.service.GHRoutingService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/route")

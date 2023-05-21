@@ -5,7 +5,12 @@ import com.graphhopper.GHResponse;
 import com.graphhopper.GraphHopper;
 import com.graphhopper.config.CHProfile;
 import com.graphhopper.config.Profile;
+import com.graphhopper.reader.osm.GraphHopperOSM;
+import com.graphhopper.util.PointList;
+import com.graphhopper.util.shapes.GHPoint;
 import org.springframework.stereotype.Service;
+
+import java.util.Locale;
 
 @Service
 public class GHRoutingService {

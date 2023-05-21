@@ -7,8 +7,7 @@ const MapScreen: React.FC = () => {
 
     const routeCoordinates: LatLng[] = [
         { latitude: 23.7104, longitude: 90.40744 },
-        { latitude: 40.9204, longitude: 90.40044 },
-        { latitude: 50.033448, longitude: 90.399384 },
+        { latitude: 24.244968, longitude: 89.9113051 },
         { latitude: 24.743448, longitude: 90.398384 },
     ];
 
