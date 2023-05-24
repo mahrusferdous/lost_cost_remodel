@@ -1,6 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import MapView, { Marker, Polyline, LatLng } from "react-native-maps";
+import tw from "tailwind-react-native-classnames";
 
 const MapScreen: React.FC = () => {
     const myLatLng: LatLng = { latitude: 23.7104, longitude: 90.40744 };
@@ -12,9 +13,9 @@ const MapScreen: React.FC = () => {
     ];
 
     return (
-        <View style={{ flex: 1 }}>
+        <View style={tw`h-full`}>
             <MapView
-                style={{ flex: 1 }}
+                style={tw`flex-1`}
                 initialRegion={{
                     latitude: myLatLng.latitude,
                     longitude: myLatLng.longitude,
