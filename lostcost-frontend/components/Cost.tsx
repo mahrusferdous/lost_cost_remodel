@@ -1,6 +1,7 @@
 import { View, Text } from "react-native";
 import { useEffect, useState } from "react";
 import tw from "tailwind-react-native-classnames";
+import React from "react";
 
 const Cost: React.FC = () => {
     const [travelPrice, setTravelPrice] = useState(0);

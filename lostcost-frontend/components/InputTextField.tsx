@@ -3,6 +3,7 @@ import { useState } from "react";
 import * as Location from "expo-location";
 import tw from "tailwind-react-native-classnames";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import React from "react";
 // import "intl";
 // import "intl/locale-data/jsonp/en";
 
