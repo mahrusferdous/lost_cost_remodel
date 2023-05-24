@@ -4,8 +4,25 @@ import MapView, { Marker, Polyline, LatLng } from "react-native-maps";
 import tw from "tailwind-react-native-classnames";
 
 const MapScreen: React.FC = () => {
+    function getDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
+        var R = 6371; // Radius of the earth in km
+        var dLat = deg2rad(lat2 - lat1);
+        var dLon = deg2rad(lon2 - lon1);
+        var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        var d = R * c; // Distance in km
+        return d;
+    }
+
+    function deg2rad(deg: number) {
+        return deg * (Math.PI / 180);
+    }
+
+    var distance = getDistance(24.580115, 90.397142, 24.576491, 90.3948);
+    console.log(distance);
+
     const pointA: LatLng = { latitude: 24.580115, longitude: 90.397142 };
-    const pointB: LatLng = { latitude: 24.743448, longitude: 90.398384 };
+    const pointB: LatLng = { latitude: 24.576491, longitude: 90.3948 };
 
     const generateDetour = (start: { latitude: any; longitude: any }, end: { latitude: any; longitude: any }) => {
         const dx = end.longitude - start.longitude;
@@ -42,13 +59,13 @@ const MapScreen: React.FC = () => {
                 initialRegion={{
                     latitude: lat,
                     longitude: long,
-                    latitudeDelta: 0.20014433238437272 * 1.1,
-                    longitudeDelta: 0.20014433238437272 * 1.1,
+                    latitudeDelta: distance / 95,
+                    longitudeDelta: distance / 95,
                 }}
             >
                 <Marker coordinate={pointA} title="Start" />
                 <Marker coordinate={pointB} title="End" />
-                <Polyline coordinates={routeCoordinates} strokeWidth={10} strokeColor="#000000" />
+                <Polyline coordinates={routeCoordinates} strokeWidth={12} strokeColor="#000000" />
             </MapView>
         </View>
     );

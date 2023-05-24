@@ -14,7 +14,7 @@ const MainScreen: React.FC = () => {
     return (
         <SafeAreaView style={tw`bg-white h-full w-full`}>
             <View style={boardStatus ? tw`h-0` : tw`h-1/2`}>
-                {!boardStatus && <DetailsPopup />}
+                <DetailsPopup />
                 <Map />
             </View>
             <View style={tw`h-1/2`}>
