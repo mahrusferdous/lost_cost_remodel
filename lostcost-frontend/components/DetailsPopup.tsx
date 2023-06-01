@@ -19,7 +19,6 @@ const DetailsPopup: React.FC = () => {
             >
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        {/* <ScrollView> */}
                         <Text style={styles.modalRedText}>Disclaimer!</Text>
                         <Text style={styles.modalCenterText}>
                             This app give estimate price for vehicle listed. This is NOT an exact cost. This is to help you get an idea.
@@ -30,8 +29,6 @@ const DetailsPopup: React.FC = () => {
                         <Text style={styles.modalCenterTextBlue} onPress={() => Linking.openURL("https://lostcost-site.web.app/")}>
                             https://lostcost-site.web.app/
                         </Text>
-                        {/* </ScrollView> */}
-
                         <TouchableOpacity style={tw`mt-3`} onPress={() => setModalVisible(!modalVisible)}>
                             <Icon name="close" />
                         </TouchableOpacity>
@@ -52,6 +49,11 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
+        position: "absolute",
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
     },
     modalView: {
         margin: 20,

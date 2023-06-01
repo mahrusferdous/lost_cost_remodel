@@ -19,7 +19,6 @@ const MapScreen: React.FC = () => {
     }
 
     var distance = getDistance(24.580115, 90.397142, 24.576491, 90.3948);
-    console.log(distance);
 
     const pointA: LatLng = { latitude: 24.580115, longitude: 90.397142 };
     const pointB: LatLng = { latitude: 24.576491, longitude: 90.3948 };

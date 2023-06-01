@@ -1,14 +1,18 @@
-import { View, StyleSheet, TouchableOpacity, TextInput } from "react-native";
-import { useState } from "react";
+import { View, TouchableOpacity, TextInput, Text, ScrollView } from "react-native";
+import React, { useState, useEffect } from "react";
 import * as Location from "expo-location";
 import tw from "tailwind-react-native-classnames";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import React from "react";
-// import "intl";
-// import "intl/locale-data/jsonp/en";
+import axios from "axios";
 
-const DirectionTextInput: React.FC = () => {
+interface DirectionTextInputProps {
+    setFilteredData: React.Dispatch<React.SetStateAction<any[]>>;
+}
+
+const DirectionTextInput: React.FC<DirectionTextInputProps> = ({ setFilteredData }) => {
     const [location, setLocation] = useState<Location.LocationObject | undefined>();
+    const [placeLocation, setPlaceLocation] = useState<String>("");
+    // const [filteredData, setFilteredData] = useState<any[]>([]);
 
     const myLocation = async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
@@ -17,13 +21,44 @@ const DirectionTextInput: React.FC = () => {
         }
 
         let location = await Location.getCurrentPositionAsync({});
+        console.log(location);
         setTimeout(() => setLocation(location), 100);
     };
+
+    useEffect(() => {
+        let timeoutId = null;
+        if (placeLocation === "") return;
+        const fetchLocationData = async () => {
+            try {
+                const response = await axios.get(`http://192.168.1.207:8080/osm-points/search?name=${placeLocation}`);
+                const filteredData = response.data.filter((item: any) => item.name.toLowerCase().startsWith(placeLocation.toLowerCase()));
+                const filteredDataWithId = filteredData.map((item: any, index: number) => ({ ...item, id: index }));
+                setFilteredData(filteredDataWithId.slice(0, 10)); // sets the first 10 results
+            } catch (error: any) {
+                console.log(error);
+            }
+        };
+
+        const delayFetchLocationData = () => {
+            clearTimeout(timeoutId!);
+            timeoutId = setTimeout(fetchLocationData, 500);
+        };
+
+        delayFetchLocationData();
+
+        return () => {
+            clearTimeout(timeoutId!);
+        };
+    }, [placeLocation]);
 
     return (
         <View>
             <View style={tw`flex rounded-full ml-4 mr-4 mb-4`}>
-                <TextInput style={tw`p-2 bg-gray-300 text-base rounded-md `} placeholder="Where From?" />
+                <TextInput
+                    style={tw`p-2 bg-gray-300 text-base rounded-md `}
+                    placeholder="Where From?"
+                    onChangeText={(text) => setPlaceLocation(text)}
+                />
                 <TouchableOpacity
                     onPress={() => {
                         myLocation();
@@ -34,7 +69,11 @@ const DirectionTextInput: React.FC = () => {
                 </TouchableOpacity>
             </View>
             <View style={tw`flex rounded-full m-4`}>
-                <TextInput style={tw`p-2 bg-gray-300 text-base rounded-md `} placeholder="Where To?" />
+                <TextInput
+                    style={tw`p-2 bg-gray-300 text-base rounded-md `}
+                    placeholder="Where To?"
+                    onChangeText={(text) => setPlaceLocation(text)}
+                />
             </View>
         </View>
     );
