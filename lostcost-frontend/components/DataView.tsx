@@ -1,9 +1,18 @@
 import React, { useState } from "react";
-
 import { ScrollView, View, TouchableOpacity, Text } from "react-native";
 import tw from "tailwind-react-native-classnames";
 
-const DataView = ({ setBoardStatus, filteredData }: { setBoardStatus: any; filteredData: any[] }) => {
+const DataView = ({
+    setBoardStatus,
+    filteredData,
+    setToLongitude,
+    setToLatitude,
+}: {
+    setBoardStatus: any;
+    filteredData: any[];
+    setToLongitude: React.Dispatch<React.SetStateAction<number>>;
+    setToLatitude: React.Dispatch<React.SetStateAction<number>>;
+}) => {
     return (
         <View>
             <ScrollView style={tw`bg-white`}>
@@ -14,6 +23,8 @@ const DataView = ({ setBoardStatus, filteredData }: { setBoardStatus: any; filte
                             style={tw`mb-2 p-3 bg-gray-200 rounded`}
                             onPress={() => {
                                 setBoardStatus(false);
+                                setToLatitude(item.latitude / 10000000);
+                                setToLongitude(item.longitude / 10000000);
                             }}
                         >
                             <Text>{item.name}</Text>

@@ -9,10 +9,15 @@ interface DirectionTextInputProps {
     setFilteredData: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
-const DirectionTextInput: React.FC<DirectionTextInputProps> = ({ setFilteredData }) => {
+interface DirectionTextInputProps {
+    setFilteredData: React.Dispatch<React.SetStateAction<any[]>>;
+    setFromLongitude: React.Dispatch<React.SetStateAction<number>>;
+    setFromLatitude: React.Dispatch<React.SetStateAction<number>>;
+}
+
+const DirectionTextInput: React.FC<DirectionTextInputProps> = ({ setFilteredData, setFromLongitude, setFromLatitude }) => {
     const [location, setLocation] = useState<Location.LocationObject | undefined>();
     const [placeLocation, setPlaceLocation] = useState<String>("");
-    // const [filteredData, setFilteredData] = useState<any[]>([]);
 
     const myLocation = async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
@@ -21,7 +26,11 @@ const DirectionTextInput: React.FC<DirectionTextInputProps> = ({ setFilteredData
         }
 
         let location = await Location.getCurrentPositionAsync({});
-        console.log(location);
+        // console.log(location);
+        // setFromLatitude(location.coords.latitude);
+        // setFromLongitude(location.coords.longitude);
+        setFromLatitude(24.580115);
+        setFromLongitude(90.397142);
         setTimeout(() => setLocation(location), 100);
     };
 

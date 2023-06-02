@@ -17,30 +17,24 @@ const MainScreen: React.FC = () => {
         filteredData.length > 0 ? setBoardStatus(true) : setBoardStatus(false);
     }, [filteredData]);
 
-    // const { fromLongitude, setFromLongitude } = useState<any>(0);
-    // const { fromLatitude, setFromLatitude } = useState<Number>(0);
-    // const { toLongitude, setToLongitude } = useState<Number>(0);
-    // const { toLatitude, setToLatitude } = useState<Number>(0);
+    const [fromLongitude, setFromLongitude] = useState<number>(0);
+    const [fromLatitude, setFromLatitude] = useState<number>(0);
+    const [toLongitude, setToLongitude] = useState<number>(0);
+    const [toLatitude, setToLatitude] = useState<number>(0);
 
     return (
         <SafeAreaView style={tw`bg-white h-full w-full`}>
             <View style={boardStatus ? tw`h-0` : tw`h-1/2`}>
-                <Map />
-                <DetailsPopup />
+                <Map fromLongitude={fromLongitude} fromLatitude={fromLatitude} toLongitude={toLongitude} toLatitude={toLatitude} />
+                {/* <DetailsPopup /> */}
             </View>
             <View style={boardStatus ? tw`h-1/2` : tw`h-0`}>
-                <DataView setBoardStatus={setBoardStatus} filteredData={filteredData} />
+                <DataView setBoardStatus={setBoardStatus} filteredData={filteredData} setToLongitude={setToLongitude} setToLatitude={setToLatitude} />
             </View>
             <View style={tw`h-1/2`}>
                 <RidesButtons color={color} setColor={setColor} />
                 <Cost />
-                <InputTextField
-                    // setFromLongitude={setFromLongitude}
-                    // setFromLatitude={setFromLatitude}
-                    // setToLongitude={setToLongitude}
-                    // setToLatitude={setToLatitude}
-                    setFilteredData={setFilteredData}
-                />
+                <InputTextField setFilteredData={setFilteredData} setFromLongitude={setFromLongitude} setFromLatitude={setFromLatitude} />
             </View>
         </SafeAreaView>
     );

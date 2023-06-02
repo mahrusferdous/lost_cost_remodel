@@ -46,14 +46,14 @@ export default DetailsPopup;
 
 const styles = StyleSheet.create({
     centeredView: {
-        flex: 1,
+        flex: 0,
         justifyContent: "center",
         alignItems: "center",
         position: "absolute",
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
+        top: 10,
+        bottom: 10,
+        left: 10,
+        right: 10,
     },
     modalView: {
         margin: 20,
