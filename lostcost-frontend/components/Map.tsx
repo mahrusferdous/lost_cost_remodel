@@ -15,6 +15,7 @@ const MapScreen: React.FC<MapScreenProps> = ({ fromLongitude, fromLatitude, toLo
     const [pointA, setPointA] = React.useState<LatLng>({ latitude: 0, longitude: 0 });
     const [pointB, setPointB] = React.useState<LatLng>({ latitude: 0, longitude: 0 });
     const [distance, setDistance] = React.useState<number>(0);
+
     const mapRef = React.useRef<MapView | null>(null);
 
     useEffect(() => {
@@ -78,9 +79,6 @@ const MapScreen: React.FC<MapScreenProps> = ({ fromLongitude, fromLatitude, toLo
             clearTimeout(timeoutId!);
         };
     }, [pointA, pointB, distance]);
-
-    console.log("pointA", pointA);
-    console.log("pointB", pointB);
 
     return (
         <View style={tw`h-full`}>

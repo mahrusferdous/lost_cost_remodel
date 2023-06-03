@@ -3,18 +3,18 @@ import { useEffect, useState } from "react";
 import tw from "tailwind-react-native-classnames";
 import React from "react";
 
-const Cost: React.FC = () => {
-    const [travelPrice, setTravelPrice] = useState(0);
-    const [travelTime, setTravelTime] = useState(0);
-    const [travelDistance, setTravelDistance] = useState(0);
+interface CostProps extends React.HTMLAttributes<HTMLDivElement> {
+    data: any;
+}
 
+const Cost: React.FC<CostProps> = ({ data }) => {
     return (
         <View>
             <View style={tw`flex flex-row justify-between py-5 px-5`}>
                 <Text style={tw`text-base`}>
-                    {!travelTime ? 0 : travelTime} ({!travelDistance ? 0 : travelDistance} km)
+                    {data.time} ({data.distance} km)
                 </Text>
-                <Text style={tw`text-3xl`}>৳{!travelPrice ? 0 : travelPrice}</Text>
+                <Text style={tw`text-3xl`}>৳{data.distance * 0.05}</Text>
             </View>
         </View>
     );

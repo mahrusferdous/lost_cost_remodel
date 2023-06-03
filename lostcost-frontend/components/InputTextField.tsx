@@ -29,8 +29,8 @@ const DirectionTextInput: React.FC<DirectionTextInputProps> = ({ setFilteredData
         // console.log(location);
         // setFromLatitude(location.coords.latitude);
         // setFromLongitude(location.coords.longitude);
-        setFromLatitude(24.580115);
-        setFromLongitude(90.397142);
+        setFromLatitude(24.71362);
+        setFromLongitude(90.450237);
         setTimeout(() => setLocation(location), 100);
     };
 
