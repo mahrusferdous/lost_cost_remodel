@@ -18,7 +18,7 @@ const MainScreen: React.FC = () => {
     const [color, setColor] = useState("");
     const [boardStatus, setBoardStatus] = useState(false);
     const [filteredData, setFilteredData] = useState<any[]>([]);
-    const [data, setData] = useState<any[]>([]);
+    const [data, setData] = useState<any>(undefined);
 
     // console.log("fromLongitude: " + fromLongitude);
     // console.log("fromLatitude: " + fromLatitude);
