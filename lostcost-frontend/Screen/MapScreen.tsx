@@ -19,11 +19,12 @@ const MainScreen: React.FC = () => {
     const [boardStatus, setBoardStatus] = useState(false);
     const [filteredData, setFilteredData] = useState<any[]>([]);
     const [data, setData] = useState<any>(undefined);
+    const [points, setPoints] = useState<String>("");
 
-    // console.log("fromLongitude: " + fromLongitude);
-    // console.log("fromLatitude: " + fromLatitude);
-    // console.log("toLongitude: " + toLongitude);
-    // console.log("toLatitude: " + toLatitude);
+    console.log("fromLongitude: " + fromLongitude);
+    console.log("fromLatitude: " + fromLatitude);
+    console.log("toLongitude: " + toLongitude);
+    console.log("toLatitude: " + toLatitude);
 
     useEffect(() => {
         const fetchLocationData = async () => {
@@ -57,12 +58,25 @@ const MainScreen: React.FC = () => {
                 {/* <DetailsPopup /> */}
             </View>
             <View style={boardStatus ? tw`h-1/2` : tw`h-0`}>
-                <DataView setBoardStatus={setBoardStatus} filteredData={filteredData} setToLongitude={setToLongitude} setToLatitude={setToLatitude} />
+                <DataView
+                    setBoardStatus={setBoardStatus}
+                    filteredData={filteredData}
+                    setToLongitude={setToLongitude}
+                    setToLatitude={setToLatitude}
+                    setFromLongitude={setFromLongitude}
+                    setFromLatitude={setFromLatitude}
+                    points={points}
+                />
             </View>
             <View style={tw`h-1/2`}>
                 <RidesButtons color={color} setColor={setColor} />
                 <Cost data={data} />
-                <InputTextField setFilteredData={setFilteredData} setFromLongitude={setFromLongitude} setFromLatitude={setFromLatitude} />
+                <InputTextField
+                    setFilteredData={setFilteredData}
+                    setPoints={setPoints}
+                    setFromLongitude={setFromLongitude}
+                    setFromLatitude={setFromLatitude}
+                />
             </View>
         </SafeAreaView>
     );
