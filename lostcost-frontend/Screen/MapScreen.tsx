@@ -65,7 +65,7 @@ const MainScreen: React.FC = () => {
             </View>
             <View style={tw`h-1/2`}>
                 <RidesButtons color={color} setColor={setColor} />
-                <Cost data={data} />
+                <Cost data={data} color={color} />
                 <InputTextField
                     setFilteredData={setFilteredData}
                     setPoints={setPoints}
