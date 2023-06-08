@@ -21,11 +21,6 @@ const MainScreen: React.FC = () => {
     const [data, setData] = useState<any>(undefined);
     const [points, setPoints] = useState<String>("");
 
-    console.log("fromLongitude: " + fromLongitude);
-    console.log("fromLatitude: " + fromLatitude);
-    console.log("toLongitude: " + toLongitude);
-    console.log("toLatitude: " + toLatitude);
-
     useEffect(() => {
         const fetchLocationData = async () => {
             try {
@@ -55,7 +50,7 @@ const MainScreen: React.FC = () => {
         <SafeAreaView style={tw`bg-white h-full w-full`}>
             <View style={boardStatus ? tw`h-0` : tw`h-1/2`}>
                 <Map fromLongitude={fromLongitude} fromLatitude={fromLatitude} toLongitude={toLongitude} toLatitude={toLatitude} />
-                {/* <DetailsPopup /> */}
+                <DetailsPopup />
             </View>
             <View style={boardStatus ? tw`h-1/2` : tw`h-0`}>
                 <DataView

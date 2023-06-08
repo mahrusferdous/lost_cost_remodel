@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { Alert, Modal, StyleSheet, Text, View, TouchableOpacity, Linking, Image, ScrollView } from "react-native";
+import { Alert, Modal, StyleSheet, Text, View, TouchableOpacity, Linking, Image } from "react-native";
 import { Icon } from "@rneui/base";
 import tw from "tailwind-react-native-classnames";
 
 const DetailsPopup: React.FC = () => {
     const [modalVisible, setModalVisible] = useState(false);
 
-    return (
+    return modalVisible ? (
         <View style={styles.centeredView}>
             <Modal
                 animationType="slide"
@@ -21,7 +21,7 @@ const DetailsPopup: React.FC = () => {
                     <View style={styles.modalView}>
                         <Text style={styles.modalRedText}>Disclaimer!</Text>
                         <Text style={styles.modalCenterText}>
-                            This app give estimate price for vehicle listed. This is NOT an exact cost. This is to help you get an idea.
+                            This app gives estimate price for vehicles listed. This is NOT an exact cost. This is to help you get an idea.
                         </Text>
                         <Text style={styles.modalText}>Feel Free to Donate</Text>
                         <Image source={require("../assets/qr.png")} style={tw`w-52 h-52 mx-auto`} />
@@ -35,10 +35,11 @@ const DetailsPopup: React.FC = () => {
                     </View>
                 </View>
             </Modal>
-            <TouchableOpacity onPress={() => setModalVisible(true)} style={tw`bg-gray-100 absolute top-16 right-8 z-50 p-3 rounded-full shadow-lg`}>
-                <Icon name="info-outline" />
-            </TouchableOpacity>
         </View>
+    ) : (
+        <TouchableOpacity onPress={() => setModalVisible(true)} style={tw`bg-gray-100 absolute top-16 right-8 z-50 p-3 rounded-full shadow-lg`}>
+            <Icon name="info-outline" />
+        </TouchableOpacity>
     );
 };
 
@@ -85,7 +86,6 @@ const styles = StyleSheet.create({
     modalCenterText: {
         textAlign: "center",
     },
-
     modalCenterTextBlue: {
         textAlign: "center",
         color: "blue",

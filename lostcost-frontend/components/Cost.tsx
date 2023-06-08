@@ -43,8 +43,6 @@ const Cost: React.FC<any> = ({ data }) => {
         }, 1000);
     }, [data]);
 
-    console.log(distance);
-
     return (
         <View>
             <View style={tw`flex flex-row justify-between py-5 px-5`}>
