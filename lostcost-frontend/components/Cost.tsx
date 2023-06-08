@@ -39,8 +39,6 @@ const Cost: React.FC<any> = ({ data, color }) => {
             const kilometerResult = convertToKilometers(data.distance);
             setDistance(parseFloat(kilometerResult));
             setCost(data.distance * 0.001);
-
-            console.log(data.time);
         }, 1000);
     }, [data]);
 

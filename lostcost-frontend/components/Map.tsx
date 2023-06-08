@@ -12,8 +12,8 @@ interface MapScreenProps {
 
 const MapScreen: React.FC<MapScreenProps> = ({ fromLongitude, fromLatitude, toLongitude, toLatitude }) => {
     const [routeCoordinates, setRouteCoordinates] = React.useState<any[]>([]);
-    const [pointA, setPointA] = React.useState<LatLng>({ latitude: 0, longitude: 0 });
-    const [pointB, setPointB] = React.useState<LatLng>({ latitude: 0, longitude: 0 });
+    const [pointA, setPointA] = React.useState<LatLng | undefined>(undefined);
+    const [pointB, setPointB] = React.useState<LatLng | undefined>(undefined);
     const [distance, setDistance] = React.useState<number>(0);
 
     const mapRef = React.useRef<MapView | null>(null);
@@ -37,29 +37,31 @@ const MapScreen: React.FC<MapScreenProps> = ({ fromLongitude, fromLatitude, toLo
         setDistance(getDistance(fromLatitude, fromLongitude, toLatitude, toLongitude));
     }, [fromLatitude, fromLongitude, toLatitude, toLongitude]);
 
-    const lat = pointA.latitude / 2 + pointB.latitude / 2;
-    const long = pointA.longitude / 2 + pointB.longitude / 2;
-
     useEffect(() => {
         // Update pointA and pointB
         const newPointA = { latitude: fromLatitude, longitude: fromLongitude };
-        const newPointB = { latitude: toLatitude, longitude: toLongitude };
         setPointA(newPointA);
-        setPointB(newPointB);
+    }, [fromLatitude, fromLongitude]);
 
-        // Update routeCoordinates
-        // setRouteCoordinates([newPointA, ...generateDetour(newPointA, newPointB), newPointB]);
-    }, [fromLatitude, fromLongitude, toLatitude, toLongitude]);
+    useEffect(() => {
+        const newPointB = { latitude: toLatitude, longitude: toLongitude };
+        setPointB(newPointB);
+    }, [toLatitude, toLongitude]);
 
     useEffect(() => {
         let timeoutId = null;
-        setRouteCoordinates([pointA, pointB]);
+        if (pointA === undefined && pointB === undefined) return;
+
+        const lat = pointA?.latitude && pointB?.latitude ? pointA.latitude / 2 + pointB.latitude / 2 : undefined;
+        const long = pointA?.longitude && pointB?.longitude ? pointA.longitude / 2 + pointB.longitude / 2 : undefined;
+
+        if (lat !== undefined && long !== undefined) setRouteCoordinates([pointA, pointB]);
         // Animate map to new region
 
         const delayFetchLocationData = () => {
             clearTimeout(timeoutId!);
             timeoutId = setTimeout(() => {
-                if (mapRef.current && distance !== 0) {
+                if (mapRef.current && distance !== 0 && lat && long) {
                     mapRef.current.animateToRegion(
                         {
                             latitude: lat,
@@ -92,9 +94,9 @@ const MapScreen: React.FC<MapScreenProps> = ({ fromLongitude, fromLatitude, toLo
                     longitudeDelta: 10,
                 }}
             >
-                <Marker coordinate={pointA} title="Start" />
-                <Marker coordinate={pointB} title="End" />
-                <Polyline coordinates={routeCoordinates} strokeWidth={12} strokeColor="#000000" />
+                {pointA !== undefined && <Marker coordinate={pointA} title="Start" />}
+                {pointB !== undefined && <Marker coordinate={pointB} title="End" />}
+                {routeCoordinates && <Polyline coordinates={routeCoordinates} strokeWidth={12} strokeColor="#000000" />}
             </MapView>
         </View>
     );
