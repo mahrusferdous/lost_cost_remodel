@@ -11,9 +11,11 @@ interface DirectionTextInputProps {
     setPoints: React.Dispatch<React.SetStateAction<String>>;
     setFromLongitude: React.Dispatch<React.SetStateAction<number>>;
     setFromLatitude: React.Dispatch<React.SetStateAction<number>>;
+    nameA: string;
+    nameB: string;
 }
 
-const InputTextField: React.FC<DirectionTextInputProps> = ({ setFilteredData, setPoints, setFromLongitude, setFromLatitude }) => {
+const InputTextField: React.FC<DirectionTextInputProps> = ({ setFilteredData, setPoints, setFromLongitude, setFromLatitude, nameA, nameB }) => {
     const myLocation = async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== "granted") {
@@ -32,7 +34,7 @@ const InputTextField: React.FC<DirectionTextInputProps> = ({ setFilteredData, se
     return (
         <View>
             <View style={tw`flex rounded-full mb-4`}>
-                <DirectionField setFilteredData={setFilteredData} setPoints={setPoints} point={"from"} />
+                <DirectionField setFilteredData={setFilteredData} setPoints={setPoints} point={"from"} name={nameA} />
                 <TouchableOpacity
                     onPress={() => {
                         myLocation();
@@ -42,7 +44,7 @@ const InputTextField: React.FC<DirectionTextInputProps> = ({ setFilteredData, se
                     <Icon name="my-location" color="white" size={27} />
                 </TouchableOpacity>
             </View>
-            <DirectionField setFilteredData={setFilteredData} setPoints={setPoints} point={"to"} />
+            <DirectionField setFilteredData={setFilteredData} setPoints={setPoints} point={"to"} name={nameB} />
         </View>
     );
 };
