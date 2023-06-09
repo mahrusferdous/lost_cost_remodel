@@ -38,7 +38,6 @@ const Cost: React.FC<any> = ({ data, color }) => {
             setTime(timeResult);
             const kilometerResult = convertToKilometers(data.distance);
             setDistance(parseFloat(kilometerResult));
-            setCost(data.distance * 0.001);
         }, 1000);
     }, [data]);
 
@@ -58,7 +57,7 @@ const Cost: React.FC<any> = ({ data, color }) => {
                 <Text style={tw`text-base`}>
                     {data ? (time.hours === 0 ? "" : time.hours + " hr ") + time.minutes + " min" : 0} ({data ? distance : 0} km)
                 </Text>
-                <Text style={tw`text-3xl`}>৳{data ? cost.toFixed(0) : 0}</Text>
+                <Text style={tw`text-3xl`}>৳{cost ? cost.toFixed(0) : 0}</Text>
             </View>
         </View>
     );
