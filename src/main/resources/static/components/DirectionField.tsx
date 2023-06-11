@@ -9,12 +9,10 @@ interface DirectionFieldProps {
     setFilteredData: React.Dispatch<React.SetStateAction<any[]>>;
     setPoints: React.Dispatch<React.SetStateAction<String>>;
     point: String;
-    name: string;
 }
 
-const DirectionField = ({ setFilteredData, setPoints, point, name }: DirectionFieldProps) => {
+const DirectionField = ({ setFilteredData, setPoints, point }: DirectionFieldProps) => {
     const [placeLocation, setPlaceLocation] = useState<String>("");
-    const [data, setData] = useState<any[]>([]);
 
     useEffect(() => {
         let timeoutId = null;
@@ -25,7 +23,6 @@ const DirectionField = ({ setFilteredData, setPoints, point, name }: DirectionFi
                 const filteredData = response.data.filter((item: any) => item.name.toLowerCase().startsWith(placeLocation.toLowerCase()));
                 const filteredDataWithId = filteredData.map((item: any, index: number) => ({ ...item, id: index }));
                 setFilteredData(filteredDataWithId.slice(0, 10)); // sets the first 10 results
-                setData(filteredDataWithId.slice(0, 10)); // sets the first 10 results
             } catch (error: any) {
                 console.log(error);
             }
@@ -43,23 +40,15 @@ const DirectionField = ({ setFilteredData, setPoints, point, name }: DirectionFi
         };
     }, [placeLocation]);
 
-    function limitString(str: string) {
-        if (str.length <= 30) {
-            return str; // Return the original string if it's within the limit
-        }
-        return str.substring(0, 30) + "..."; // Append "..." if it exceeds the limit
-    }
-
     return (
         <View style={tw`flex rounded-full ml-4 mr-4 mb-4`}>
             <TextInput
                 style={tw`p-2 bg-gray-300 text-base rounded-md `}
-                placeholder={name !== "" ? limitString(name) : "Where?"}
+                placeholder="Where From?"
                 onChangeText={(text) => {
                     setPlaceLocation(text);
                     setPoints(point);
                 }}
-                clearTextOnFocus={name !== "" ? true : false}
             />
         </View>
     );

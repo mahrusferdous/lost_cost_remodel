@@ -10,8 +10,6 @@ const DataView = ({
     setFromLongitude,
     setFromLatitude,
     points,
-    setNameA,
-    setNameB,
 }: {
     setBoardStatus: any;
     filteredData: any[];
@@ -20,8 +18,6 @@ const DataView = ({
     setFromLongitude: React.Dispatch<React.SetStateAction<number>>;
     setFromLatitude: React.Dispatch<React.SetStateAction<number>>;
     points: String;
-    setNameA: React.Dispatch<React.SetStateAction<string>>;
-    setNameB: React.Dispatch<React.SetStateAction<string>>;
 }) => {
     return (
         <View>
@@ -36,7 +32,6 @@ const DataView = ({
                                       setBoardStatus(false);
                                       setFromLatitude(item.latitude / 10000000);
                                       setFromLongitude(item.longitude / 10000000);
-                                      setNameA(item.name);
                                   }}
                               >
                                   <Text>{item.name}</Text>
@@ -50,7 +45,6 @@ const DataView = ({
                                       setBoardStatus(false);
                                       setToLatitude(item.latitude / 10000000);
                                       setToLongitude(item.longitude / 10000000);
-                                      setNameB(item.name);
                                   }}
                               >
                                   <Text>{item.name}</Text>

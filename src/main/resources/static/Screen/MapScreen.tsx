@@ -20,8 +20,6 @@ const MainScreen: React.FC = () => {
     const [filteredData, setFilteredData] = useState<any[]>([]);
     const [data, setData] = useState<any>(undefined);
     const [points, setPoints] = useState<String>("");
-    const [nameA, setNameA] = useState<string>("");
-    const [nameB, setNameB] = useState<string>("");
 
     useEffect(() => {
         const fetchLocationData = async () => {
@@ -63,8 +61,6 @@ const MainScreen: React.FC = () => {
                     setFromLongitude={setFromLongitude}
                     setFromLatitude={setFromLatitude}
                     points={points}
-                    setNameA={setNameA}
-                    setNameB={setNameB}
                 />
             </View>
             <View style={tw`h-1/2`}>
@@ -75,8 +71,6 @@ const MainScreen: React.FC = () => {
                     setPoints={setPoints}
                     setFromLongitude={setFromLongitude}
                     setFromLatitude={setFromLatitude}
-                    nameA={nameA}
-                    nameB={nameB}
                 />
             </View>
         </SafeAreaView>
