@@ -5,7 +5,12 @@ import com.graphhopper.GHResponse;
 import com.graphhopper.GraphHopper;
 import com.graphhopper.config.CHProfile;
 import com.graphhopper.config.Profile;
+import com.graphhopper.util.PointList;
+import com.graphhopper.util.shapes.GHPoint;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class GHRoutingService {
@@ -17,7 +22,7 @@ public class GHRoutingService {
 
     static GraphHopper createGraphHopperInstance(String ghLoc) {
         GraphHopper hopper = new GraphHopper();
-        hopper.setOSMFile("C:\\My Files\\WORKSPACE\\Self Taught\\ReactNative\\bangladesh-latest.osm");  // Adjusted path to your OSM file
+        hopper.setOSMFile("C:\\My Files\\WORKSPACE\\Self Taught\\Java\\bangladesh-latest.osm");  // Adjusted path to your OSM file
         hopper.setGraphHopperLocation("target/routing-graph-cache");
 
         hopper.setProfiles(new Profile("car").setVehicle("car").setWeighting("fastest").setTurnCosts(false));
@@ -33,4 +38,24 @@ public class GHRoutingService {
         return rsp;
     }
 
+    public String getPolyline(GHResponse rsp) {
+        if (rsp.hasErrors()) {
+            // handle or throw error
+            return null;
+        }
+
+        PointList pointList = rsp.getBest().getPoints();
+        StringBuilder polyline = new StringBuilder();
+
+        for (GHPoint point : pointList) {
+            polyline.append(point.getLat()).append(",").append(point.getLon()).append(";");
+        }
+
+        // Remove the trailing semicolon
+        if (polyline.length() > 0) {
+            polyline.setLength(polyline.length() - 1);
+        }
+
+        return polyline.toString();
+    }
 }

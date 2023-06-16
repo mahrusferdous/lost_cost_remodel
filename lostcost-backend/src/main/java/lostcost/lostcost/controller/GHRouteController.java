@@ -15,11 +15,23 @@ public class GHRouteController {
         this.routingService = routingService;
     }
 
-    @PostMapping
+    @PostMapping("/calculate")
     public ResponseEntity<GHResponse> calculateRoute(@RequestBody RouteRequest request) {
         GHResponse response = routingService.calculateRoute(
                 request.getFromLat(), request.getFromLon(),
                 request.getToLat(), request.getToLon());
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/polyline")
+    public ResponseEntity<String> getRoute(@RequestBody RouteRequest request) {
+        GHResponse route = routingService.calculateRoute(request.getFromLat(), request.getFromLon(), request.getToLat(), request.getToLon());
+        String polyline = routingService.getPolyline(route);
+
+        if (polyline == null) {
+            return ResponseEntity.badRequest().body("Unable to calculate route");
+        } else {
+            return ResponseEntity.ok(polyline);
+        }
     }
 }
