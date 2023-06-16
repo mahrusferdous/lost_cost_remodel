@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/osm-points")
@@ -19,8 +20,9 @@ public class OsmPointController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<OsmPointDTO>> searchOsmPoints(@RequestParam String name) {
-        List<OsmPointDTO> osmPointsDTO = osmPointService.searchOsmPointsByName(name);
-        return new ResponseEntity<>(osmPointsDTO, HttpStatus.OK);
+    public CompletableFuture<ResponseEntity<List<OsmPointDTO>>> searchOsmPoints(@RequestParam String name) {
+        return osmPointService.searchOsmPointsByName(name)
+                .thenApply(ResponseEntity::ok)
+                .exceptionally(e -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
     }
 }

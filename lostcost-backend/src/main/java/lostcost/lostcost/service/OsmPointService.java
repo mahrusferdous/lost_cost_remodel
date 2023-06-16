@@ -3,10 +3,12 @@ package lostcost.lostcost.service;
 import lostcost.lostcost.dto.OsmPointDTO;
 import lostcost.lostcost.entity.OsmPoint;
 import lostcost.lostcost.repository.OsmPointRepository;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class OsmPointService {
@@ -17,7 +19,8 @@ public class OsmPointService {
         this.osmPointRepository = osmPointRepository;
     }
 
-    public List<OsmPointDTO> searchOsmPointsByName(String name) {
+    @Async("taskExecutor")
+    public CompletableFuture<List<OsmPointDTO>> searchOsmPointsByName(String name) {
         List<OsmPoint> osmPoints = osmPointRepository.findByNameContainingIgnoreCase(name);
         List<OsmPointDTO> osmPointDTOs = new ArrayList<>();
 
@@ -29,7 +32,6 @@ public class OsmPointService {
             osmPointDTOs.add(osmPointDTO);
         }
 
-        return osmPointDTOs;
+        return CompletableFuture.completedFuture(osmPointDTOs);
     }
 }
-
