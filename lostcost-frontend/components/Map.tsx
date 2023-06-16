@@ -8,9 +8,10 @@ interface MapScreenProps {
     fromLatitude: number;
     toLongitude: number;
     toLatitude: number;
+    polyline: string;
 }
 
-const MapScreen: React.FC<MapScreenProps> = ({ fromLongitude, fromLatitude, toLongitude, toLatitude }) => {
+const MapScreen: React.FC<MapScreenProps> = ({ fromLongitude, fromLatitude, toLongitude, toLatitude, polyline }) => {
     const [routeCoordinates, setRouteCoordinates] = React.useState<any[]>([]);
     const [pointA, setPointA] = React.useState<LatLng | undefined>(undefined);
     const [pointB, setPointB] = React.useState<LatLng | undefined>(undefined);
@@ -55,8 +56,18 @@ const MapScreen: React.FC<MapScreenProps> = ({ fromLongitude, fromLatitude, toLo
         const lat = pointA?.latitude && pointB?.latitude ? pointA.latitude / 2 + pointB.latitude / 2 : undefined;
         const long = pointA?.longitude && pointB?.longitude ? pointA.longitude / 2 + pointB.longitude / 2 : undefined;
 
-        if (lat !== undefined && long !== undefined) setRouteCoordinates([pointA, pointB]);
         // Animate map to new region
+
+        const polylineCoordinates = polyline.split(";").map((point) => {
+            const [latitude, longitude] = point.split(",");
+            return {
+                latitude: parseFloat(latitude),
+                longitude: parseFloat(longitude),
+            };
+        });
+
+        // console.log(polylineCoordinates);
+        if (lat !== undefined && long !== undefined) setRouteCoordinates(polylineCoordinates);
 
         const delayFetchLocationData = () => {
             clearTimeout(timeoutId!);
@@ -80,7 +91,7 @@ const MapScreen: React.FC<MapScreenProps> = ({ fromLongitude, fromLatitude, toLo
         return () => {
             clearTimeout(timeoutId!);
         };
-    }, [pointA, pointB, distance]);
+    }, [pointA, pointB, distance, polyline]);
 
     return (
         <View style={tw`h-full`}>

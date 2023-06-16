@@ -19,6 +19,7 @@ const MainScreen: React.FC = () => {
     const [boardStatus, setBoardStatus] = useState(false);
     const [filteredData, setFilteredData] = useState<any[]>([]);
     const [data, setData] = useState<any>(undefined);
+    const [polyline, setPolyline] = useState<string>();
     const [points, setPoints] = useState<String>("");
     const [nameA, setNameA] = useState<string>("");
     const [nameB, setNameB] = useState<string>("");
@@ -26,7 +27,8 @@ const MainScreen: React.FC = () => {
     useEffect(() => {
         const fetchLocationData = async () => {
             try {
-                const url = "http://192.168.1.207:8080/route";
+                const url1 = "http://192.168.1.207:8080/route/calculate";
+                const url2 = "http://192.168.1.207:8080/route/polyline";
                 const data = {
                     fromLat: fromLatitude,
                     fromLon: fromLongitude,
@@ -34,8 +36,10 @@ const MainScreen: React.FC = () => {
                     toLon: toLongitude,
                 };
 
-                const response = await axios.post(url, data);
+                const response = await axios.post(url1, data);
+                const response2 = await axios.post(url2, data);
                 setData(response.data.all[0]);
+                setPolyline(response2.data);
             } catch (error) {
                 console.log(error);
             }
@@ -51,7 +55,13 @@ const MainScreen: React.FC = () => {
     return (
         <SafeAreaView style={tw`bg-white h-full w-full`}>
             <View style={boardStatus ? tw`h-0` : tw`h-1/2`}>
-                <Map fromLongitude={fromLongitude} fromLatitude={fromLatitude} toLongitude={toLongitude} toLatitude={toLatitude} />
+                <Map
+                    fromLongitude={fromLongitude}
+                    fromLatitude={fromLatitude}
+                    toLongitude={toLongitude}
+                    toLatitude={toLatitude}
+                    polyline={polyline || ""}
+                />
                 <DetailsPopup />
             </View>
             <View style={boardStatus ? tw`h-1/2` : tw`h-0`}>
