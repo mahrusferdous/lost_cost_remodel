@@ -8,7 +8,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "planet_osm_point")
 public class OsmPoint {
-
     @Id
     @Column(name = "osm_id")
     private Long osmId;

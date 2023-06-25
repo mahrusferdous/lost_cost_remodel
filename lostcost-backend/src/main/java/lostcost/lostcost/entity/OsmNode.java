@@ -13,11 +13,20 @@ public class OsmNode {
     private Long id;
 
     @Column(name = "lat")
-    private Double latitude;
+    private Double lat;
 
     @Column(name = "lon")
-    private Double longitude;
+    private Double lon;
 
-    @OneToOne(mappedBy = "osmNode")
+    @OneToOne(mappedBy = "osmNode", fetch = FetchType.LAZY)
+    private OsmRoad osmRoad;
+
+    @OneToOne(mappedBy = "osmNode", fetch = FetchType.LAZY)
     private OsmPoint osmPoint;
+
+    @OneToOne(mappedBy = "osmNode", fetch = FetchType.LAZY)
+    private OsmLine osmLine;
+
+    @OneToOne(mappedBy = "osmNode", fetch = FetchType.LAZY)
+    private OsmPolygon osmPolygon;
 }
