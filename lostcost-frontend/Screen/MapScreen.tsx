@@ -45,7 +45,7 @@ const MainScreen: React.FC = () => {
             }
         };
 
-        fetchLocationData();
+        if (fromLatitude && fromLongitude && toLatitude && toLongitude) fetchLocationData();
     }, [fromLatitude, fromLongitude, toLatitude, toLongitude]);
 
     useEffect(() => {

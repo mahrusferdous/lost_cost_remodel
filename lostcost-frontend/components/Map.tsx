@@ -88,8 +88,7 @@ const MapScreen: React.FC<MapScreenProps> = ({ fromLongitude, fromLatitude, toLo
                 longitude: parseFloat(longitude),
             };
         });
-
-        setRouteCoordinates(polylineCoordinates);
+        if (polyline !== "") setRouteCoordinates(polylineCoordinates);
     }, [polyline]);
 
     return (
