@@ -23,8 +23,8 @@ const DetailsPopup: React.FC = () => {
                         <Text style={styles.modalCenterText}>
                             This app gives estimate price for vehicles listed. This is NOT an exact cost. This is to help you get an idea.
                         </Text>
-                        <Text style={styles.modalText}>Feel Free to Donate</Text>
-                        <Image source={require("../assets/qr.png")} style={tw`w-52 h-52 mx-auto`} />
+                        {/* <Text style={styles.modalText}>Feel Free to Donate</Text>
+                        <Image source={require("../assets/qr.png")} style={tw`w-52 h-52 mx-auto`} /> */}
                         <Text style={styles.modalText}>More Information</Text>
                         <Text style={styles.modalCenterTextBlue} onPress={() => Linking.openURL("https://lostcost-site.web.app/")}>
                             https://lostcost-site.web.app/
