@@ -27,8 +27,8 @@ const MainScreen: React.FC = () => {
     useEffect(() => {
         const fetchLocationData = async () => {
             try {
-                const url1 = "http://192.168.1.207:8080/route/calculate";
-                const url2 = "http://192.168.1.207:8080/route/polyline";
+                const url1 = "https://poor.bags.move.loca.lt/route/calculate";
+                const url2 = "https://poor.bags.move.loca.lt/route/polyline";
                 const data = {
                     fromLat: fromLatitude,
                     fromLon: fromLongitude,

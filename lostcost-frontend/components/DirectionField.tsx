@@ -21,7 +21,7 @@ const DirectionField = ({ setFilteredData, setPoints, point, name }: DirectionFi
         if (placeLocation === "") return;
         const fetchLocationData = async () => {
             try {
-                const response = await axios.get(`http://192.168.1.207:8080/osm-points/search?name=${placeLocation}`);
+                const response = await axios.get(`https://poor.bags.move.loca.lt/osm-points/search?name=${placeLocation}`);
                 const filteredData = response.data.filter((item: any) => item.name.toLowerCase().startsWith(placeLocation.toLowerCase()));
                 const filteredDataWithId = filteredData.map((item: any, index: number) => ({ ...item, id: index }));
                 setFilteredData(filteredDataWithId.slice(0, 10)); // sets the first 10 results
