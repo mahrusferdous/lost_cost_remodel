@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { ScrollView, View, TouchableOpacity, Text } from "react-native";
 import tw from "tailwind-react-native-classnames";
 

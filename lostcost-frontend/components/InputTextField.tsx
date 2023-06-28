@@ -1,10 +1,9 @@
-import { View, TouchableOpacity, TextInput, Text, ScrollView } from "react-native";
-import React, { useState, useEffect } from "react";
+import { View, TouchableOpacity } from "react-native";
+import React from "react";
 import * as Location from "expo-location";
 import DirectionField from "./DirectionField";
 import tw from "tailwind-react-native-classnames";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import axios from "axios";
 
 interface DirectionTextInputProps {
     setFilteredData: React.Dispatch<React.SetStateAction<any[]>>;
@@ -23,11 +22,8 @@ const InputTextField: React.FC<DirectionTextInputProps> = ({ setFilteredData, se
         }
 
         let location = await Location.getCurrentPositionAsync({});
-        // console.log(location);
-        // setFromLatitude(location.coords.latitude);
-        // setFromLongitude(location.coords.longitude);
-        setFromLatitude(23.9324);
-        setFromLongitude(90.7147);
+        setFromLatitude(location.coords.latitude);
+        setFromLongitude(location.coords.longitude);
         setTimeout(() => location, 100);
     };
 

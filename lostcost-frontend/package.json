@@ -12,7 +12,7 @@
     "@types/react-native-maps": "^0.24.2",
     "axios": "^1.4.0",
     "expo": "~48.0.18",
-    "expo-dev-client": "~2.2.1",
+    "expo-dev-client": "^2.2.1",
     "expo-location": "~15.1.1",
     "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.4",

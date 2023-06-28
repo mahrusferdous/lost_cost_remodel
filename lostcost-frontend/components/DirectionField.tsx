@@ -1,8 +1,6 @@
-import { View, TouchableOpacity, TextInput, Text, ScrollView } from "react-native";
+import { View, TextInput } from "react-native";
 import React, { useState, useEffect } from "react";
-import * as Location from "expo-location";
 import tw from "tailwind-react-native-classnames";
-import Icon from "react-native-vector-icons/MaterialIcons";
 import axios from "axios";
 
 interface DirectionFieldProps {
@@ -14,18 +12,16 @@ interface DirectionFieldProps {
 
 const DirectionField = ({ setFilteredData, setPoints, point, name }: DirectionFieldProps) => {
     const [placeLocation, setPlaceLocation] = useState<String>("");
-    const [data, setData] = useState<any[]>([]);
 
     useEffect(() => {
         let timeoutId = null;
         if (placeLocation === "") return;
         const fetchLocationData = async () => {
             try {
-                const response = await axios.get(`https://poor.bags.move.loca.lt/osm-points/search?name=${placeLocation}`);
+                const response = await axios.get(`https://fruity-brooms-find.loca.lt/osm-points/search?name=${placeLocation}`);
                 const filteredData = response.data.filter((item: any) => item.name.toLowerCase().startsWith(placeLocation.toLowerCase()));
                 const filteredDataWithId = filteredData.map((item: any, index: number) => ({ ...item, id: index }));
-                setFilteredData(filteredDataWithId.slice(0, 10)); // sets the first 10 results
-                setData(filteredDataWithId.slice(0, 10));
+                setFilteredData(filteredDataWithId.slice(0, 10));
             } catch (error: any) {
                 console.log(error);
             }
@@ -33,7 +29,7 @@ const DirectionField = ({ setFilteredData, setPoints, point, name }: DirectionFi
 
         const delayFetchLocationData = () => {
             clearTimeout(timeoutId!);
-            timeoutId = setTimeout(fetchLocationData, 500);
+            timeoutId = setTimeout(fetchLocationData, 1000);
         };
 
         delayFetchLocationData();

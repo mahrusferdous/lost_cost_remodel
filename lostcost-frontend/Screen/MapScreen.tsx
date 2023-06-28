@@ -27,8 +27,8 @@ const MainScreen: React.FC = () => {
     useEffect(() => {
         const fetchLocationData = async () => {
             try {
-                const url1 = "https://poor.bags.move.loca.lt/route/calculate";
-                const url2 = "https://poor.bags.move.loca.lt/route/polyline";
+                const url1 = "https://fruity-brooms-find.loca.lt/route/calculate";
+                const url2 = "https://fruity-brooms-find.loca.lt/route/polyline";
                 const data = {
                     fromLat: fromLatitude,
                     fromLon: fromLongitude,
