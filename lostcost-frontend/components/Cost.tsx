@@ -42,10 +42,11 @@ const Cost: React.FC<any> = ({ data, color }) => {
     }, [data]);
 
     useEffect(() => {
+        if (!data) return;
+
         if (color == "rickshaw") {
             setCost(data.distance * 0.002);
         }
-
         if (color == "auto") {
             setCost(data.distance * 0.001);
         }

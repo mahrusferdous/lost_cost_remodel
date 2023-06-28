@@ -1,43 +1,46 @@
 {
-    "expo": {
-        "name": "Lost Cost",
-        "slug": "lost-cost",
-        "version": "2.0.0",
-        "orientation": "portrait",
-        "icon": "./assets/icon.png",
-        "userInterfaceStyle": "light",
-        "splash": {
-            "image": "./assets/splash.png",
-            "resizeMode": "contain",
-            "backgroundColor": "#ffffff"
-        },
-        "updates": {
-            "fallbackToCacheTimeout": 0
-        },
-        "assetBundlePatterns": ["**/*"],
-        "ios": {
-            "supportsTablet": true
-        },
-        "android": {
-            "package": "com.mahrusferdous.lostCost",
-            "versionCode": 20,
-            "adaptiveIcon": {
-                "foregroundImage": "./assets/adaptive-icon.png",
-                "backgroundColor": "#ffffff"
-            },
-            "config": {
-                "googleMaps": {
-                    "apiKey": "AIzaSyDUIU8jtfpAShCcIf65LwuQ9VMxpZieJII"
-                }
-            }
-        },
-        "web": {
-            "favicon": "./assets/favicon.png"
-        },
-        "extra": {
-            "eas": {
-                "projectId": "0e6a7ec7-4f0b-4c0b-95a7-2cf1ecb81cd8"
-            }
+  "expo": {
+    "name": "Lost Cost",
+    "slug": "lost-cost",
+    "version": "2.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mahrusferdous.lostCost"
+    },
+    "android": {
+      "package": "com.mahrusferdous.lostCost",
+      "versionCode": 20,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDUIU8jtfpAShCcIf65LwuQ9VMxpZieJII"
         }
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0e6a7ec7-4f0b-4c0b-95a7-2cf1ecb81cd8"
+      }
     }
+  }
 }

@@ -9,6 +9,7 @@ interface RidesButtonsProps {
 }
 
 const RidesButtons: React.FC<RidesButtonsProps> = ({ color, setColor }) => {
+    console.log(color);
     return (
         <View style={tw`flex-row bg-transparent justify-evenly pt-6`}>
             <TouchableOpacity disabled={true} style={tw`bg-gray-300 w-20 py-2 rounded-lg`}>
