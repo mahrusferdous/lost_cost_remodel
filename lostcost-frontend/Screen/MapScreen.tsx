@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View } from "react-native";
+import { View, SafeAreaView, StatusBar } from "react-native";
 import Map from "../components/Map";
 import tw from "tailwind-react-native-classnames";
 import InputTextField from "../components/InputTextField";
@@ -53,7 +53,8 @@ const MainScreen: React.FC = () => {
     }, [filteredData]);
 
     return (
-        <View style={tw`bg-white h-full w-full`}>
+        <SafeAreaView style={tw`bg-white h-full w-full`}>
+            <StatusBar backgroundColor="black" barStyle="light-content" />
             <View style={boardStatus ? tw`h-0` : tw`h-1/2`}>
                 <Map
                     fromLongitude={fromLongitude}
@@ -89,7 +90,7 @@ const MainScreen: React.FC = () => {
                     nameB={nameB}
                 />
             </View>
-        </View>
+        </SafeAreaView>
     );
 };
 
