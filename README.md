@@ -4,10 +4,6 @@ Under construction 🚧
 
 ## Getting started
 
-```bash
-git clone https://github.com/mahrusferdous/muslim-roadmap.git
-```
-
 Backend:
 
 ```bash
@@ -22,4 +18,16 @@ Frontend:
 cd lostcost-frontend
 yarn install
 npm start
+```
+
+Build:
+
+```bash
+npx eas build --platform android
+```
+
+Expo build:
+
+```bash
+npx eas build --profile development --platform android
 ```
