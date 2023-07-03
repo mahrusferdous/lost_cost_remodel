@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, SafeAreaView } from "react-native";
+import { View } from "react-native";
 import Map from "../components/Map";
 import tw from "tailwind-react-native-classnames";
 import InputTextField from "../components/InputTextField";
@@ -27,8 +27,8 @@ const MainScreen: React.FC = () => {
     useEffect(() => {
         const fetchLocationData = async () => {
             try {
-                const url1 = "https://fruity-brooms-find.loca.lt/route/calculate";
-                const url2 = "https://fruity-brooms-find.loca.lt/route/polyline";
+                const url1 = "https://tangy-results-tell.loca.lt/route/calculate";
+                const url2 = "https://tangy-results-tell.loca.lt/route/polyline";
                 const data = {
                     fromLat: fromLatitude,
                     fromLon: fromLongitude,
@@ -53,7 +53,7 @@ const MainScreen: React.FC = () => {
     }, [filteredData]);
 
     return (
-        <SafeAreaView style={tw`bg-white h-full w-full`}>
+        <View style={tw`bg-white h-full w-full`}>
             <View style={boardStatus ? tw`h-0` : tw`h-1/2`}>
                 <Map
                     fromLongitude={fromLongitude}
@@ -89,7 +89,7 @@ const MainScreen: React.FC = () => {
                     nameB={nameB}
                 />
             </View>
-        </SafeAreaView>
+        </View>
     );
 };
 

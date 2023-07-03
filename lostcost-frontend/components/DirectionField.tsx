@@ -16,16 +16,45 @@ const DirectionField = ({ setFilteredData, setPoints, point, name }: DirectionFi
     useEffect(() => {
         let timeoutId = null;
         if (placeLocation === "") return;
+        // const fetchLocationData = async () => {
+        //     try {
+        //         const response = await axios.get(`https://tangy-results-tell.loca.lt/osm-points/search?name=${placeLocation}`);
+        //         const filteredData = response.data.filter((item: any) => item.name.toLowerCase().startsWith(placeLocation.toLowerCase()));
+        //         const filteredDataWithId = filteredData.map((item: any, index: number) => ({ ...item, id: index }));
+        //         setFilteredData(filteredDataWithId.slice(0, 10));
+        //     } catch (error: any) {
+        //         console.log(error);
+        //     }
+        // };
+
         const fetchLocationData = async () => {
             try {
-                const response = await axios.get(`https://fruity-brooms-find.loca.lt/osm-points/search?name=${placeLocation}`);
-                const filteredData = response.data.filter((item: any) => item.name.toLowerCase().startsWith(placeLocation.toLowerCase()));
-                const filteredDataWithId = filteredData.map((item: any, index: number) => ({ ...item, id: index }));
-                setFilteredData(filteredDataWithId.slice(0, 10));
-            } catch (error: any) {
+                const response = await axios.get(`https://tangy-results-tell.loca.lt/osm-points/search?name=${placeLocation}`);
+                const filteredData = response.data.filter((item: { name: string }) =>
+                    item.name.toLowerCase().startsWith(placeLocation.toLowerCase())
+                );
+
+                // Shuffle the filteredData array
+                const shuffledData = shuffleArray(filteredData);
+
+                // Get the first 10 elements from the shuffled array
+                const randomSelection = shuffledData.slice(0, 10);
+
+                const filteredDataWithId = randomSelection.map((item, index) => ({ ...item, id: index }));
+                setFilteredData(filteredDataWithId);
+            } catch (error) {
                 console.log(error);
             }
         };
+
+        // Fisher-Yates shuffle algorithm
+        function shuffleArray(array: any[]) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
 
         const delayFetchLocationData = () => {
             clearTimeout(timeoutId!);
