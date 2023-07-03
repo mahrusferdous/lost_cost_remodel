@@ -19,10 +19,15 @@ public class OsmPointController {
        this.osmPointService = osmPointService;
    }
 
-   @GetMapping("/search")
-   public CompletableFuture<ResponseEntity<List<OsmEntityDTO>>> searchOsmPoints(@RequestParam String name) {
-       return osmPointService.searchOsmPointsByName(name)
-               .thenApply(ResponseEntity::ok)
-               .exceptionally(e -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
-   }
+    @GetMapping("/search")
+    public CompletableFuture<ResponseEntity<List<OsmEntityDTO>>> searchOsmPoints(@RequestParam String name) {
+        try {
+            return osmPointService.searchOsmPointsByName(name)
+                    .thenApply(ResponseEntity::ok)
+                    .exceptionally(e -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+        } catch (Exception e) {
+            return CompletableFuture.completedFuture(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+        }
+    }
+
 }
