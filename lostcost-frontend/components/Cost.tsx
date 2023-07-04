@@ -45,10 +45,26 @@ const Cost: React.FC<any> = ({ data, color }) => {
         if (!data) return;
 
         if (color == "rickshaw") {
-            setCost(data.distance * 0.002);
+            const travelDistanceValue = data.distance;
+            const travelPriceFirst = Math.floor(travelDistanceValue / 1000) * 10;
+            const rickshawCalculation =
+                travelDistanceValue >= 6000
+                    ? travelPriceFirst
+                    : travelDistanceValue < 500
+                    ? 10
+                    : travelDistanceValue < 1500
+                    ? 20
+                    : travelDistanceValue < 2500
+                    ? 30
+                    : travelDistanceValue < 4000
+                    ? 40
+                    : 50;
+
+            setCost(rickshawCalculation);
         }
         if (color == "auto") {
-            setCost(data.distance * 0.001);
+            const travelPriceAuto = Math.ceil(data.distance / 1800) * 5;
+            setCost(travelPriceAuto);
         }
     }, [data, color]);
 

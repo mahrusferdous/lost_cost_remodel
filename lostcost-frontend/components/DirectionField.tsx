@@ -35,7 +35,6 @@ const DirectionField = ({ setFilteredData, setPoints, point, name }: DirectionFi
                 const randomSelection = shuffledData.slice(0, 10);
                 const filteredDataWithId = randomSelection.map((item: any, index: any) => ({ ...item, id: index }));
                 setFilteredData(filteredDataWithId);
-                console.log(filteredDataWithId);
             } catch (error) {
                 console.log(error);
             }
