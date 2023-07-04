@@ -30,18 +30,12 @@ const DirectionField = ({ setFilteredData, setPoints, point, name }: DirectionFi
         const fetchLocationData = async () => {
             try {
                 const response = await axios.get(`https://tangy-results-tell.loca.lt/osm-points/search?name=${placeLocation}`);
-                const filteredData = response.data.filter((item: { name: string }) =>
-                    item.name.toLowerCase().startsWith(placeLocation.toLowerCase())
-                );
-
-                // Shuffle the filteredData array
+                const filteredData = response.data.filter((item: { name: string }) => item.name.toLowerCase());
                 const shuffledData = shuffleArray(filteredData);
-
-                // Get the first 10 elements from the shuffled array
                 const randomSelection = shuffledData.slice(0, 10);
-
-                const filteredDataWithId = randomSelection.map((item, index) => ({ ...item, id: index }));
+                const filteredDataWithId = randomSelection.map((item: any, index: any) => ({ ...item, id: index }));
                 setFilteredData(filteredDataWithId);
+                console.log(filteredDataWithId);
             } catch (error) {
                 console.log(error);
             }

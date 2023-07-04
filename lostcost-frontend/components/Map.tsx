@@ -105,7 +105,7 @@ const MapScreen: React.FC<MapScreenProps> = ({ fromLongitude, fromLatitude, toLo
             >
                 {pointA !== undefined && <Marker coordinate={pointA} title="Start" />}
                 {pointB !== undefined && <Marker coordinate={pointB} title="End" />}
-                {polyline !== "" && <Polyline coordinates={routeCoordinates} strokeWidth={12} strokeColor="#000000" />}
+                {polyline !== "" && <Polyline coordinates={routeCoordinates} strokeWidth={8} strokeColor="#000000" />}
             </MapView>
         </View>
     );
