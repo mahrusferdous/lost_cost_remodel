@@ -19,10 +19,11 @@ const DetailsPopup: React.FC = () => {
             >
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <Text style={styles.modalRedText}>Disclaimer!</Text>
+                        <Text style={styles.modalRedText}>Disclaimer</Text>
                         <Text style={styles.modalCenterText}>
                             This app gives estimate price for vehicles listed. This is NOT an exact cost. This is to help you get an idea.
                         </Text>
+                        <Text style={styles.modalCenterText}>Enjoy!</Text>
                         {/* <Text style={styles.modalText}>Feel Free to Donate</Text>
                         <Image source={require("../assets/qr.png")} style={tw`w-52 h-52 mx-auto`} /> */}
                         <Text style={styles.modalText}>More Information</Text>
