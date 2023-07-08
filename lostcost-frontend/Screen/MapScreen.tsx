@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, SafeAreaView, StatusBar } from "react-native";
+import { View, SafeAreaView, StatusBar, ScrollView } from "react-native";
 import Map from "../components/Map";
 import tw from "tailwind-react-native-classnames";
 import InputTextField from "../components/InputTextField";
@@ -7,6 +7,7 @@ import RidesButtons from "../components/RidesButtons";
 import Cost from "../components/Cost";
 import DetailsPopup from "../components/DetailsPopup";
 import DataView from "../components/DataView";
+import GoogleAds from "../components/GoogleAds";
 import axios from "axios";
 
 const MainScreen: React.FC = () => {
@@ -27,8 +28,8 @@ const MainScreen: React.FC = () => {
     useEffect(() => {
         const fetchLocationData = async () => {
             try {
-                const url1 = "https://tangy-results-tell.loca.lt/route/calculate";
-                const url2 = "https://tangy-results-tell.loca.lt/route/polyline";
+                const url1 = "https://gentle-turkeys-joke.loca.lt/route/calculate";
+                const url2 = "https://gentle-turkeys-joke.loca.lt/route/polyline";
                 const data = {
                     fromLat: fromLatitude,
                     fromLon: fromLongitude,
@@ -79,16 +80,19 @@ const MainScreen: React.FC = () => {
                 />
             </View>
             <View style={tw`h-1/2`}>
-                <RidesButtons color={color} setColor={setColor} />
-                <Cost data={data} color={color} />
-                <InputTextField
-                    setFilteredData={setFilteredData}
-                    setPoints={setPoints}
-                    setFromLongitude={setFromLongitude}
-                    setFromLatitude={setFromLatitude}
-                    nameA={nameA}
-                    nameB={nameB}
-                />
+                <ScrollView>
+                    <RidesButtons color={color} setColor={setColor} />
+                    <Cost data={data} color={color} />
+                    <InputTextField
+                        setFilteredData={setFilteredData}
+                        setPoints={setPoints}
+                        setFromLongitude={setFromLongitude}
+                        setFromLatitude={setFromLatitude}
+                        nameA={nameA}
+                        nameB={nameB}
+                    />
+                </ScrollView>
+                <GoogleAds />
             </View>
         </SafeAreaView>
     );

@@ -2,7 +2,7 @@
     "expo": {
         "name": "Lost Cost",
         "slug": "lost-cost",
-        "version": "2.0.3",
+        "version": "2.0.4",
         "orientation": "portrait",
         "icon": "./assets/icon.png",
         "userInterfaceStyle": "light",
@@ -21,7 +21,7 @@
         },
         "android": {
             "package": "com.mahrusferdous.lostCost",
-            "versionCode": 23,
+            "versionCode": 24,
             "adaptiveIcon": {
                 "foregroundImage": "./assets/adaptive-icon.png",
                 "backgroundColor": "#ffffff"
@@ -40,5 +40,8 @@
                 "projectId": "0e6a7ec7-4f0b-4c0b-95a7-2cf1ecb81cd8"
             }
         }
+    },
+    "react-native-google-mobile-ads": {
+        "android_app_id": "ca-app-pub-6735072114001071~7032611003"
     }
 }

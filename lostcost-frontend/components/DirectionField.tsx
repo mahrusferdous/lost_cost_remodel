@@ -29,7 +29,7 @@ const DirectionField = ({ setFilteredData, setPoints, point, name }: DirectionFi
 
         const fetchLocationData = async () => {
             try {
-                const response = await axios.get(`https://tangy-results-tell.loca.lt/osm-points/search?name=${placeLocation}`);
+                const response = await axios.get(`https://gentle-turkeys-joke.loca.lt/osm-points/search?name=${placeLocation}`);
                 const filteredData = response.data.filter((item: { name: string }) => item.name.toLowerCase());
                 const shuffledData = shuffleArray(filteredData);
                 const randomSelection = shuffledData.slice(0, 10);

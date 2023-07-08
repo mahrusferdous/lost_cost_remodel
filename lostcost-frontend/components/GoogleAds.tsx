@@ -1,32 +1,36 @@
-// import { View } from "react-native";
-// import tw from "tailwind-react-native-classnames";
-// import { AppOpenAd, BannerAd, TestIds, BannerAdSize, AdEventType } from "react-native-google-mobile-ads";
-// import { ANDROID_APP_BANNER, ANDROID_APP_OPEN } from "@env";
+import { View, Platform } from "react-native";
+import tw from "tailwind-react-native-classnames";
+import { AppOpenAd, BannerAd, TestIds, BannerAdSize, AdEventType } from "react-native-google-mobile-ads";
+import { ANDROID_APP_BANNER, ANDROID_APP_OPEN } from "@env";
 
-// const adOpenUnitId = __DEV__ ? TestIds.APP_OPEN : ANDROID_APP_OPEN;
-// const adBannerUnitId = __DEV__ ? TestIds.BANNER : ANDROID_APP_BANNER;
+const adOpenUnitId = __DEV__ ? TestIds.APP_OPEN : ANDROID_APP_OPEN;
+const adBannerUnitId = __DEV__ ? TestIds.BANNER : ANDROID_APP_BANNER;
 
-// const appOpenAd = AppOpenAd.createForAdRequest(adOpenUnitId, {
-//     requestNonPersonalizedAdsOnly: true,
-// });
-// appOpenAd.load();
+let appOpenAd: AppOpenAd;
 
-// const GoogleAds = () => {
-//     appOpenAd.addAdEventListener(AdEventType.LOADED, () => {
-//         appOpenAd.show();
-//     });
+if (Platform.OS === "android") {
+    appOpenAd = AppOpenAd.createForAdRequest(adOpenUnitId, {
+        requestNonPersonalizedAdsOnly: true,
+    });
+    appOpenAd?.load();
+}
 
-//     return (
-//         <View style={tw`flex justify-center items-center text-center mt-auto`}>
-//             <BannerAd
-//                 unitId={adBannerUnitId}
-//                 size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-//                 requestOptions={{
-//                     requestNonPersonalizedAdsOnly: true,
-//                 }}
-//             />
-//         </View>
-//     );
-// };
+const GoogleAds = () => {
+    appOpenAd?.addAdEventListener(AdEventType.LOADED, () => {
+        appOpenAd?.show();
+    });
 
-// export default GoogleAds;
+    return (
+        <View style={tw`flex justify-center items-center text-center mt-auto`}>
+            <BannerAd
+                unitId={adBannerUnitId}
+                size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+                requestOptions={{
+                    requestNonPersonalizedAdsOnly: true,
+                }}
+            />
+        </View>
+    );
+};
+
+export default GoogleAds;
