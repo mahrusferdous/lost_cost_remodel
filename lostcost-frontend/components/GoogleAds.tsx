@@ -1,7 +1,10 @@
 import { View, Platform } from "react-native";
 import tw from "tailwind-react-native-classnames";
 import { AppOpenAd, BannerAd, TestIds, BannerAdSize, AdEventType } from "react-native-google-mobile-ads";
-import { ANDROID_APP_BANNER, ANDROID_APP_OPEN } from "@env";
+// import { ANDROID_APP_BANNER, ANDROID_APP_OPEN } from "@env";
+
+const ANDROID_APP_BANNER = "ca-app-pub-6735072114001071/2331443509";
+const ANDROID_APP_OPEN = "ca-app-pub-6735072114001071/6079116829";
 
 const adOpenUnitId = __DEV__ ? TestIds.APP_OPEN : ANDROID_APP_OPEN;
 const adBannerUnitId = __DEV__ ? TestIds.BANNER : ANDROID_APP_BANNER;
