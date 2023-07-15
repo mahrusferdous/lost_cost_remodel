@@ -28,8 +28,8 @@ const MainScreen: React.FC = () => {
     useEffect(() => {
         const fetchLocationData = async () => {
             try {
-                const url1 = "https://c8a2-96-246-230-48.ngrok-free.app/route/calculate";
-                const url2 = "https://c8a2-96-246-230-48.ngrok-free.app/route/polyline";
+                const url1 = "https://lostcostapp.loca.lt/route/calculate";
+                const url2 = "https://lostcostapp.loca.lt/route/polyline";
                 const data = {
                     fromLat: fromLatitude,
                     fromLon: fromLongitude,

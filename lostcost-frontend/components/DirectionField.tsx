@@ -29,7 +29,7 @@ const DirectionField = ({ setFilteredData, setPoints, point, name }: DirectionFi
 
         const fetchLocationData = async () => {
             try {
-                const response = await axios.get(`https://c8a2-96-246-230-48.ngrok-free.app/osm-points/search?name=${placeLocation}`);
+                const response = await axios.get(`https://lostcostapp.loca.lt/osm-points/search?name=${placeLocation}`);
                 const filteredData = response.data.filter((item: { name: string }) => item.name.toLowerCase());
                 const shuffledData = shuffleArray(filteredData);
                 const randomSelection = shuffledData.slice(0, 10);
