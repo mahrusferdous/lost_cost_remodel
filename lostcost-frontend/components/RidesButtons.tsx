@@ -11,8 +11,14 @@ interface RidesButtonsProps {
 const RidesButtons: React.FC<RidesButtonsProps> = ({ color, setColor }) => {
     return (
         <View style={tw`flex-row bg-transparent justify-evenly pt-6`}>
-            <TouchableOpacity disabled={true} style={tw`bg-gray-300 w-20 py-2 rounded-lg`}>
-                <View style={styles.crossLine1}></View>
+            <TouchableOpacity
+                // disabled={true}
+                onPress={() => {
+                    setColor("bus");
+                }}
+                style={tw`${color == "bus" ? "bg-black" : "bg-gray-300"} w-20 py-2 rounded-lg`}
+            >
+                {/* <View style={styles.crossLine1}></View> */}
                 <Icon name="bus" type="font-awesome" color="white" size={16} />
                 <Text style={tw`text-white text-center`}>Bus</Text>
             </TouchableOpacity>
@@ -37,8 +43,12 @@ const RidesButtons: React.FC<RidesButtonsProps> = ({ color, setColor }) => {
                 <Text style={tw`text-white text-center`}>Auto</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity disabled={true} style={tw`bg-gray-300 w-20 py-2 rounded-lg`}>
-                <View style={styles.crossLine1}></View>
+            <TouchableOpacity
+                onPress={() => {
+                    setColor("cng");
+                }}
+                style={tw`${color == "cng" ? "bg-black" : "bg-gray-300"} w-20 py-2 rounded-lg`}
+            >
                 <Image source={require("../assets/CNG.png")} style={tw`w-4 h-4 mx-auto`} />
                 <Text style={tw`text-white text-center`}>CNG</Text>
             </TouchableOpacity>

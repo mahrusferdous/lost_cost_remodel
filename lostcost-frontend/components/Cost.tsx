@@ -62,9 +62,20 @@ const Cost: React.FC<any> = ({ data, color }) => {
 
             setCost(rickshawCalculation);
         }
+
         if (color == "auto") {
             const travelPriceAuto = Math.ceil(data.distance / 1800) * 5;
             setCost(travelPriceAuto);
+        }
+
+        if (color == "bus") {
+            const travelPriceBus = Math.ceil(data.distance / 7000) * 10;
+            setCost(travelPriceBus);
+        }
+
+        if (color == "cng") {
+            const travelPriceCNG = Math.ceil(data.distance / 3000) * 10;
+            setCost(travelPriceCNG);
         }
     }, [data, color]);
 
