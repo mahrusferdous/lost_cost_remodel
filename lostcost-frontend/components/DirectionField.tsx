@@ -15,11 +15,11 @@ const DirectionField = ({ setFilteredData, setPoints, point, name }: DirectionFi
 
     useEffect(() => {
         let timeoutId = null;
-        if (placeLocation.length < 3) return;
+        if (placeLocation === "") return;
 
         const fetchLocationData = async () => {
             try {
-                const response = await axios.get(`https://lostcostapp.loca.lt/osm-points/search?name=${placeLocation}`);
+                const response = await axios.get(`https://lostcost.loca.lt/osm-points/search?name=${placeLocation}`);
                 const filteredData = response.data.filter((item: { name: string }) => item.name.toLowerCase());
                 const shuffledData = shuffleArray(filteredData);
                 const randomSelection = shuffledData.slice(0, 10);
@@ -41,7 +41,7 @@ const DirectionField = ({ setFilteredData, setPoints, point, name }: DirectionFi
 
         const delayFetchLocationData = () => {
             clearTimeout(timeoutId!);
-            timeoutId = setTimeout(fetchLocationData, 500);
+            timeoutId = setTimeout(fetchLocationData, 1000);
         };
 
         delayFetchLocationData();
