@@ -15,17 +15,7 @@ const DirectionField = ({ setFilteredData, setPoints, point, name }: DirectionFi
 
     useEffect(() => {
         let timeoutId = null;
-        if (placeLocation === "") return;
-        // const fetchLocationData = async () => {
-        //     try {
-        //         const response = await axios.get(`https://tangy-results-tell.loca.lt/osm-points/search?name=${placeLocation}`);
-        //         const filteredData = response.data.filter((item: any) => item.name.toLowerCase().startsWith(placeLocation.toLowerCase()));
-        //         const filteredDataWithId = filteredData.map((item: any, index: number) => ({ ...item, id: index }));
-        //         setFilteredData(filteredDataWithId.slice(0, 10));
-        //     } catch (error: any) {
-        //         console.log(error);
-        //     }
-        // };
+        if (placeLocation.length < 3) return;
 
         const fetchLocationData = async () => {
             try {
@@ -51,7 +41,7 @@ const DirectionField = ({ setFilteredData, setPoints, point, name }: DirectionFi
 
         const delayFetchLocationData = () => {
             clearTimeout(timeoutId!);
-            timeoutId = setTimeout(fetchLocationData, 1000);
+            timeoutId = setTimeout(fetchLocationData, 500);
         };
 
         delayFetchLocationData();
