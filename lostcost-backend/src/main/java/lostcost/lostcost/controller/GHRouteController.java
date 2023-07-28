@@ -18,25 +18,52 @@ public class GHRouteController {
         this.routingService = routingService;
     }
 
+//    @PostMapping("/calculate")
+//    public CompletableFuture<ResponseEntity<GHResponse>> calculateRoute(@RequestBody RouteRequest request) {
+//        return routingService.calculateRoute(request.getFromLat(), request.getFromLon(), request.getToLat(), request.getToLon())
+//                .thenApply(ResponseEntity::ok)
+//                .exceptionally(e -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+//    }
+//
+//    @PostMapping("/polyline")
+//    public CompletableFuture<ResponseEntity<String>> getRoute(@RequestBody RouteRequest request) {
+//        return routingService.calculateRoute(request.getFromLat(), request.getFromLon(), request.getToLat(), request.getToLon())
+//                .thenCompose(route -> routingService.getPolyline(route))
+//                .thenApply(polyline -> {
+//                    if (polyline == null) {
+//                        return ResponseEntity.badRequest().body("Unable to calculate route");
+//                    } else {
+//                        return ResponseEntity.ok(polyline);
+//                    }
+//                })
+//                .exceptionally(e -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+//    }
+
     @PostMapping("/calculate")
-    public CompletableFuture<ResponseEntity<GHResponse>> calculateRoute(@RequestBody RouteRequest request) {
-        return routingService.calculateRoute(request.getFromLat(), request.getFromLon(), request.getToLat(), request.getToLon())
-                .thenApply(ResponseEntity::ok)
-                .exceptionally(e -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+    public ResponseEntity<GHResponse> calculateRoute(@RequestBody RouteRequest request) {
+        try {
+            GHResponse response = routingService.calculateRoute(request.getFromLat(), request.getFromLon(), request.getToLat(), request.getToLon()).join();
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @PostMapping("/polyline")
-    public CompletableFuture<ResponseEntity<String>> getRoute(@RequestBody RouteRequest request) {
-        return routingService.calculateRoute(request.getFromLat(), request.getFromLon(), request.getToLat(), request.getToLon())
-                .thenCompose(route -> routingService.getPolyline(route))
-                .thenApply(polyline -> {
-                    if (polyline == null) {
-                        return ResponseEntity.badRequest().body("Unable to calculate route");
-                    } else {
-                        return ResponseEntity.ok(polyline);
-                    }
-                })
-                .exceptionally(e -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+    public ResponseEntity<String> getRoute(@RequestBody RouteRequest request) {
+        try {
+            String polyline = routingService.calculateRoute(request.getFromLat(), request.getFromLon(), request.getToLat(), request.getToLon())
+                    .thenCompose(route -> routingService.getPolyline(route)).join();
+
+            if (polyline == null) {
+                return ResponseEntity.badRequest().body("Unable to calculate route");
+            } else {
+                return ResponseEntity.ok(polyline);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
+
 
 }
