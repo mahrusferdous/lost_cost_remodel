@@ -9,6 +9,7 @@ import DetailsPopup from "../components/DetailsPopup";
 import DataView from "../components/DataView";
 import GoogleAds from "../components/GoogleAds";
 import axios from "axios";
+import { lostCostURL, envURL } from "@env";
 
 const MainScreen: React.FC = () => {
     const [fromLongitude, setFromLongitude] = useState<number>(0);
@@ -28,8 +29,8 @@ const MainScreen: React.FC = () => {
     useEffect(() => {
         const fetchLocationData = async () => {
             try {
-                const url1 = "https://lostcost.loca.lt/route/calculate";
-                const url2 = "https://lostcost.loca.lt/route/polyline";
+                const url1 = `${envURL}/route/calculate`;
+                const url2 = `${envURL}/route/polyline`;
                 const data = {
                     fromLat: fromLatitude,
                     fromLon: fromLongitude,

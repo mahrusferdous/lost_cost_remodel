@@ -2,6 +2,7 @@ import { View, TextInput } from "react-native";
 import React, { useState, useEffect } from "react";
 import tw from "tailwind-react-native-classnames";
 import axios from "axios";
+import { lostCostURL, envURL } from "@env";
 
 interface DirectionFieldProps {
     setFilteredData: React.Dispatch<React.SetStateAction<any[]>>;
@@ -19,7 +20,7 @@ const DirectionField = ({ setFilteredData, setPoints, point, name }: DirectionFi
 
         const fetchLocationData = async () => {
             try {
-                const response = await axios.get(`https://lostcost.loca.lt/osm-points/search?name=${placeLocation}`);
+                const response = await axios.get(`${envURL}/osm-points/search?name=${placeLocation}`);
                 const filteredData = response.data.filter((item: { name: string }) => item.name.toLowerCase());
                 const shuffledData = shuffleArray(filteredData);
                 const randomSelection = shuffledData.slice(0, 10);

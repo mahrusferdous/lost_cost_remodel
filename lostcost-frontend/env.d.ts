@@ -5,5 +5,8 @@ declare module "@env" {
     // export const IOS_APP_OPEN: ca-app-pub-6735072114001071/6357538176;
     export const ANDROID_APP_ID: "ca-app-pub-6735072114001071~7032611003";
     // export const IOS_APP_ID: ca-app-pub-6735072114001071~5799613905;
+
+    export const envURL = "https://localhost:8080";
+    export const lostCostURL = "https://lostcost.loca.lt";
 }
 declare module "tailwind-react-native-classnames";
