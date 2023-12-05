@@ -11,6 +11,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class GHRoutingService {
@@ -46,29 +47,31 @@ public class GHRoutingService {
             }
 
             return rsp;
-        }, executor);
+        }, executor).orTimeout(5, TimeUnit.SECONDS);
     }
 
 
     @Async("taskExecutor")
     public CompletableFuture<String> getPolyline(GHResponse rsp) {
-        if (rsp.hasErrors()) {
-            // handle or throw error
-            return CompletableFuture.completedFuture(null);
-        }
+        return CompletableFuture.supplyAsync(() -> {
+            if (rsp.hasErrors()) {
+                // handle or throw error
+                return null;
+            }
 
-        PointList pointList = rsp.getBest().getPoints();
-        StringBuilder polyline = new StringBuilder();
+            PointList pointList = rsp.getBest().getPoints();
+            StringBuilder polyline = new StringBuilder();
 
-        for (GHPoint point : pointList) {
-            polyline.append(point.getLat()).append(",").append(point.getLon()).append(";");
-        }
+            for (GHPoint point : pointList) {
+                polyline.append(point.getLat()).append(",").append(point.getLon()).append(";");
+            }
 
-        // Remove the trailing semicolon
-        if (polyline.length() > 0) {
-            polyline.setLength(polyline.length() - 1);
-        }
+            // Remove the trailing semicolon
+            if (polyline.length() > 0) {
+                polyline.setLength(polyline.length() - 1);
+            }
 
-        return CompletableFuture.completedFuture(polyline.toString());
+            return polyline.toString();
+        }, executor).orTimeout(5, TimeUnit.SECONDS); // Add a timeout of 5 seconds
     }
 }
