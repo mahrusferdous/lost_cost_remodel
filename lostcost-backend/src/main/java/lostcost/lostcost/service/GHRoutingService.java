@@ -25,7 +25,7 @@ public class GHRoutingService {
 
     static GraphHopper createGraphHopperInstance() {
         GraphHopper hopper = new GraphHopper();
-        hopper.setOSMFile("C:\\My Files\\WORKSPACE\\Self Taught\\Java\\bangladesh-latest.osm.pbf");  // Adjusted path to your OSM file
+        hopper.setOSMFile("C:\\Apps & Workspace\\Workspace\\bangladesh-latest.osm.pbf");  // Adjusted path to your OSM file
         hopper.setGraphHopperLocation("target/routing-graph-cache");
 
         hopper.setProfiles(new Profile("car").setVehicle("car").setWeighting("fastest").setTurnCosts(false));
