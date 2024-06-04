@@ -20,7 +20,10 @@ psql -d my_osm_db
 
 CREATE EXTENSION postgis;
 
-osm2pgsql -c -d my_osm_db -U postgres -H localhost -P 5432 --slim -C 2000 -W -S C:\Users\mahru\Downloads\osm2pgsql-bin\default.style bangladesh-latest.osm.pbf
+\q
+
+"C:\Apps & Workspace\Workspace\osm2pgsql-bin\osm2pgsql.exe" -c -d my_osm_database -U postgres -H localhost -P 5432 --slim -C 2000 -W -S "C:\Apps & Workspace\Workspace\osm2pgsql-bin\default.style" bangladesh-latest.osm.pbf
+
 ```
 
 ## Lost Cost Docker setup for OSRM
