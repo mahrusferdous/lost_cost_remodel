@@ -93,7 +93,7 @@ const MainScreen: React.FC = () => {
                         nameB={nameB}
                     />
                 </ScrollView>
-                <GoogleAds />
+                {/* <GoogleAds /> */}
             </View>
         </SafeAreaView>
     );

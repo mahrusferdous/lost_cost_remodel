@@ -18,6 +18,7 @@ Frontend:
 cd lostcost-frontend
 yarn install
 npm start
+npm start -- --reset-cache
 ```
 
 Build:
