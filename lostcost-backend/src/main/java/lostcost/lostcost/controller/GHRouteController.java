@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/route")
+@CrossOrigin(origins = "*")
 public class GHRouteController {
     private final GHRoutingService routingService;
 
@@ -41,6 +42,4 @@ public class GHRouteController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
-
 }

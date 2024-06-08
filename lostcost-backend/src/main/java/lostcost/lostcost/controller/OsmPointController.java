@@ -11,6 +11,7 @@ import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/osm-points")
+@CrossOrigin(origins = "*")
 public class OsmPointController {
 
    private final OsmPointService osmPointService;
