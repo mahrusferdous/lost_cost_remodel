@@ -14,7 +14,14 @@ interface DirectionTextInputProps {
     nameB: string;
 }
 
-const InputTextField: React.FC<DirectionTextInputProps> = ({ setFilteredData, setPoints, setFromLongitude, setFromLatitude, nameA, nameB }) => {
+const InputTextField = ({
+    setFilteredData,
+    setPoints,
+    setFromLongitude,
+    setFromLatitude,
+    nameA,
+    nameB,
+}: DirectionTextInputProps) => {
     const myLocation = async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== "granted") {

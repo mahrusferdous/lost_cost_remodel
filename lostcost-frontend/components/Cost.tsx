@@ -3,7 +3,12 @@ import { useEffect, useState } from "react";
 import tw from "tailwind-react-native-classnames";
 import React from "react";
 
-const Cost: React.FC<any> = ({ data, color }) => {
+interface CostProps {
+    data: any;
+    color: string;
+}
+
+const Cost = ({ data, color }: CostProps) => {
     const [cost, setCost] = useState<number>(0);
     interface TimeFormat {
         hours: number;
@@ -83,7 +88,8 @@ const Cost: React.FC<any> = ({ data, color }) => {
         <View>
             <View style={tw`flex flex-row justify-between py-5 px-5`}>
                 <Text style={tw`text-base`}>
-                    {data ? (time.hours === 0 ? "" : time.hours + " hr ") + time.minutes + " min" : 0} ({data ? distance : 0} km)
+                    {data ? (time.hours === 0 ? "" : time.hours + " hr ") + time.minutes + " min" : 0} (
+                    {data ? distance : 0} km)
                 </Text>
                 <Text style={tw`text-3xl`}>৳{cost ? cost.toFixed(0) : 0}</Text>
             </View>

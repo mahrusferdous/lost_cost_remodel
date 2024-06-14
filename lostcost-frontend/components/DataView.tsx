@@ -2,6 +2,18 @@ import React from "react";
 import { ScrollView, View, TouchableOpacity, Text } from "react-native";
 import tw from "tailwind-react-native-classnames";
 
+interface DataViewProps {
+    setBoardStatus: any;
+    filteredData: any[];
+    setToLongitude: React.Dispatch<React.SetStateAction<number>>;
+    setToLatitude: React.Dispatch<React.SetStateAction<number>>;
+    setFromLongitude: React.Dispatch<React.SetStateAction<number>>;
+    setFromLatitude: React.Dispatch<React.SetStateAction<number>>;
+    points: String;
+    setNameA: React.Dispatch<React.SetStateAction<string>>;
+    setNameB: React.Dispatch<React.SetStateAction<string>>;
+}
+
 const DataView = ({
     setBoardStatus,
     filteredData,
@@ -12,17 +24,7 @@ const DataView = ({
     points,
     setNameA,
     setNameB,
-}: {
-    setBoardStatus: any;
-    filteredData: any[];
-    setToLongitude: React.Dispatch<React.SetStateAction<number>>;
-    setToLatitude: React.Dispatch<React.SetStateAction<number>>;
-    setFromLongitude: React.Dispatch<React.SetStateAction<number>>;
-    setFromLatitude: React.Dispatch<React.SetStateAction<number>>;
-    points: String;
-    setNameA: React.Dispatch<React.SetStateAction<string>>;
-    setNameB: React.Dispatch<React.SetStateAction<string>>;
-}) => {
+}: DataViewProps) => {
     return (
         <View>
             <ScrollView style={tw`bg-white`}>

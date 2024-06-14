@@ -3,7 +3,7 @@ import { Alert, Modal, StyleSheet, Text, View, TouchableOpacity, Linking, Image 
 import { Icon } from "@rneui/base";
 import tw from "tailwind-react-native-classnames";
 
-const DetailsPopup: React.FC = () => {
+const DetailsPopup = () => {
     const [modalVisible, setModalVisible] = useState(false);
 
     return modalVisible ? (
@@ -21,13 +21,17 @@ const DetailsPopup: React.FC = () => {
                     <View style={styles.modalView}>
                         <Text style={styles.modalRedText}>Disclaimer</Text>
                         <Text style={styles.modalCenterText}>
-                            This app gives estimate price for vehicles listed. This is NOT an exact cost. This is to help you get an idea.
+                            This app gives estimate price for vehicles listed. This is NOT an exact cost. This is to
+                            help you get an idea.
                         </Text>
                         <Text style={styles.modalCenterText}>Enjoy!</Text>
                         {/* <Text style={styles.modalText}>Feel Free to Donate</Text>
                         <Image source={require("../assets/qr.png")} style={tw`w-52 h-52 mx-auto`} /> */}
                         <Text style={styles.modalText}>More Information</Text>
-                        <Text style={styles.modalCenterTextBlue} onPress={() => Linking.openURL("https://lostcost-site.web.app/")}>
+                        <Text
+                            style={styles.modalCenterTextBlue}
+                            onPress={() => Linking.openURL("https://lostcost-site.web.app/")}
+                        >
                             https://lostcost-site.web.app/
                         </Text>
                         <TouchableOpacity style={tw`mt-3`} onPress={() => setModalVisible(!modalVisible)}>
@@ -38,7 +42,10 @@ const DetailsPopup: React.FC = () => {
             </Modal>
         </View>
     ) : (
-        <TouchableOpacity onPress={() => setModalVisible(true)} style={tw`bg-gray-100 absolute top-16 right-8 z-50 p-3 rounded-full shadow-lg`}>
+        <TouchableOpacity
+            onPress={() => setModalVisible(true)}
+            style={tw`bg-gray-100 absolute top-16 right-8 z-50 p-3 rounded-full shadow-lg`}
+        >
             <Icon name="info-outline" />
         </TouchableOpacity>
     );
