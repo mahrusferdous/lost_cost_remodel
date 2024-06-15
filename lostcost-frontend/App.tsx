@@ -1,4 +1,3 @@
-import React from "react";
 import MapScreen from "./screen/MapScreen";
 
 const App = () => {
