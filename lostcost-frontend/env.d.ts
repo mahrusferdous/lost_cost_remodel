@@ -1,10 +1,7 @@
 declare module "@env" {
     export const ANDROID_APP_BANNER: string;
     export const ANDROID_APP_OPEN: string;
-    // export const IOS_APP_BANNER: string;
-    // export const IOS_APP_OPEN: string;
     export const ANDROID_APP_ID: string;
-    // export const IOS_APP_ID: string;
 
     export const envURL: string;
     export const lostCostURL: string;

@@ -1,7 +1,7 @@
 import React from "react";
-import MapScreen from "./Screen/MapScreen";
+import MapScreen from "./screen/MapScreen";
 
-const App: React.FC = () => {
+const App = () => {
     return <MapScreen />;
 };
 
