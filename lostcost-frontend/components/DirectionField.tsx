@@ -21,27 +21,12 @@ const DirectionField = ({ setFilteredData, setPoints, point, name }: DirectionFi
         const fetchLocationData = async () => {
             try {
                 const response = await axios.get(`${envURL}/osm-points/search?name=${placeLocation}`);
-                // const filteredData = response.data.filter((item: { name: string }) => item.name.toLowerCase());
-                // const shuffledData = shuffleArray(filteredData);
-                // const randomSelection = shuffledData.slice(0, 10);
-                // const filteredDataWithId = randomSelection.map((item: any, index: any) => ({ ...item, id: index }));
-                // console.log(filteredDataWithId);
                 const data = response.data.map((item: any, index: any) => ({ ...item, id: index }));
                 setFilteredData(data);
-                // console.log(data);
             } catch (error) {
                 console.log(error);
             }
         };
-
-        // Fisher-Yates shuffle algorithm
-        // function shuffleArray(array: any[]) {
-        //     for (let i = array.length - 1; i > 0; i--) {
-        //         const j = Math.floor(Math.random() * (i + 1));
-        //         [array[i], array[j]] = [array[j], array[i]];
-        //     }
-        //     return array;
-        // }
 
         const delayFetchLocationData = () => {
             clearTimeout(timeoutId!);
