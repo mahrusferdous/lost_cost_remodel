@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import tw from "tailwind-react-native-classnames";
 import { View } from "react-native";
 import { MapView, PointAnnotation, ShapeSource, LineLayer, Camera } from "@maplibre/maplibre-react-native";
@@ -12,19 +12,23 @@ interface MapScreenProps {
 }
 
 const MapScreen = ({ fromLongitude, fromLatitude, toLongitude, toLatitude, polyline }: MapScreenProps) => {
-	const [routeCoordinates, setRouteCoordinates] = React.useState<number[][]>([]);
-	const [pointA, setPointA] = React.useState<[number, number] | null>(null);
-	const [pointB, setPointB] = React.useState<[number, number] | null>(null);
+	const [routeCoordinates, setRouteCoordinates] = useState<number[][]>([]);
+	const [pointA, setPointA] = useState<[number, number] | null>(null);
+	const [pointB, setPointB] = useState<[number, number] | null>(null);
+	const [cameraState, setCameraState] = useState<{ center: [number, number]; zoom: number } | null>(null);
 
 	const cameraRef = useRef<any>(null);
 
+	// Set points
 	useEffect(() => {
 		setPointA([fromLongitude, fromLatitude]);
 		setPointB([toLongitude, toLatitude]);
 	}, [fromLongitude, fromLatitude, toLongitude, toLatitude]);
 
+	// Parse polyline into coordinates
 	useEffect(() => {
 		if (!polyline) return;
+
 		const coords: number[][] = polyline
 			.split(";")
 			.map((point) => {
@@ -35,6 +39,7 @@ const MapScreen = ({ fromLongitude, fromLatitude, toLongitude, toLatitude, polyl
 				return [lonNum, latNum]; // MapLibre expects [longitude, latitude]
 			})
 			.filter(Boolean) as number[][];
+
 		setRouteCoordinates(coords);
 	}, [polyline]);
 
@@ -55,19 +60,26 @@ const MapScreen = ({ fromLongitude, fromLatitude, toLongitude, toLatitude, polyl
 		const minLat = Math.min(...lats);
 		const maxLat = Math.max(...lats);
 
-		cameraRef.current.fitBounds([minLon, minLat], [maxLon, maxLat], 50, 1000);
+		// Use a small timeout to ensure map is ready before fitBounds
+		setTimeout(() => {
+			cameraRef.current.fitBounds([minLon, minLat], [maxLon, maxLat], 50, 1000);
+		}, 100);
 	}, [pointA, pointB, routeCoordinates]);
 
 	return (
 		<View style={tw`h-full`}>
 			<MapView
 				style={{ flex: 1 }}
-				mapStyle="https://tiles.openfreemap.org/styles/liberty" // OpenFreeMap tiles for roads & features
+				mapStyle="https://tiles.openfreemap.org/styles/liberty"
+				onRegionDidChange={(region) => {
+					// Save camera state if user zooms or pans
+					setCameraState({ center: region.center, zoom: region.zoom });
+				}}
 			>
 				<Camera
 					ref={cameraRef}
-					centerCoordinate={[90.3563, 23.685]} // [longitude, latitude]
-					zoomLevel={5} // adjust zoom as needed
+					centerCoordinate={cameraState ? cameraState.center : [90.3563, 23.685]}
+					zoomLevel={cameraState ? cameraState.zoom : 5}
 				/>
 
 				{routeCoordinates.length > 0 && (
@@ -75,10 +87,7 @@ const MapScreen = ({ fromLongitude, fromLatitude, toLongitude, toLatitude, polyl
 						id="routeLine"
 						shape={{
 							type: "Feature",
-							geometry: {
-								type: "LineString",
-								coordinates: routeCoordinates,
-							},
+							geometry: { type: "LineString", coordinates: routeCoordinates },
 							properties: {},
 						}}
 					>
