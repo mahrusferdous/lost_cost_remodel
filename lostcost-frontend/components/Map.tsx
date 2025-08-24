@@ -1,115 +1,111 @@
-import React, { useEffect } from "react";
-import { View } from "react-native";
-import MapView, { Marker, Polyline, LatLng } from "react-native-maps";
+import React, { useEffect, useRef } from "react";
 import tw from "tailwind-react-native-classnames";
+import { View } from "react-native";
+import { MapView, PointAnnotation, ShapeSource, LineLayer, Camera } from "@maplibre/maplibre-react-native";
 
 interface MapScreenProps {
-    fromLongitude: number;
-    fromLatitude: number;
-    toLongitude: number;
-    toLatitude: number;
-    polyline: string;
+	fromLongitude: number;
+	fromLatitude: number;
+	toLongitude: number;
+	toLatitude: number;
+	polyline: string;
 }
 
 const MapScreen = ({ fromLongitude, fromLatitude, toLongitude, toLatitude, polyline }: MapScreenProps) => {
-    const [routeCoordinates, setRouteCoordinates] = React.useState<any[]>([]);
-    const [pointA, setPointA] = React.useState<LatLng | undefined>(undefined);
-    const [pointB, setPointB] = React.useState<LatLng | undefined>(undefined);
-    const [distance, setDistance] = React.useState<number>(0);
+	const [routeCoordinates, setRouteCoordinates] = React.useState<number[][]>([]);
+	const [pointA, setPointA] = React.useState<[number, number] | null>(null);
+	const [pointB, setPointB] = React.useState<[number, number] | null>(null);
 
-    const mapRef = React.useRef<MapView | null>(null);
+	const cameraRef = useRef<any>(null);
 
-    useEffect(() => {
-        function getDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
-            var R = 6371; // Radius of the earth in km
-            var dLat = deg2rad(lat2 - lat1);
-            var dLon = deg2rad(lon2 - lon1);
-            var a =
-                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
-            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-            var d = R * c; // Distance in km
-            return d;
-        }
+	useEffect(() => {
+		setPointA([fromLongitude, fromLatitude]);
+		setPointB([toLongitude, toLatitude]);
+	}, [fromLongitude, fromLatitude, toLongitude, toLatitude]);
 
-        function deg2rad(deg: number) {
-            return deg * (Math.PI / 180);
-        }
+	useEffect(() => {
+		if (!polyline) return;
+		const coords: number[][] = polyline
+			.split(";")
+			.map((point) => {
+				const [lat, lon] = point.split(",");
+				const latNum = parseFloat(lat);
+				const lonNum = parseFloat(lon);
+				if (isNaN(latNum) || isNaN(lonNum)) return null;
+				return [lonNum, latNum]; // MapLibre expects [longitude, latitude]
+			})
+			.filter(Boolean) as number[][];
+		setRouteCoordinates(coords);
+	}, [polyline]);
 
-        setDistance(getDistance(fromLatitude, fromLongitude, toLatitude, toLongitude));
-    }, [fromLatitude, fromLongitude, toLatitude, toLongitude]);
+	useEffect(() => {
+		if (!cameraRef.current) return;
 
-    useEffect(() => {
-        // Update pointA and pointB
-        const newPointA = { latitude: fromLatitude, longitude: fromLongitude };
-        setPointA(newPointA);
-    }, [fromLatitude, fromLongitude]);
+		let allCoords: number[][] = [];
+		if (pointA) allCoords.push(pointA);
+		if (pointB) allCoords.push(pointB);
+		allCoords = allCoords.concat(routeCoordinates);
 
-    useEffect(() => {
-        const newPointB = { latitude: toLatitude, longitude: toLongitude };
-        setPointB(newPointB);
-    }, [toLatitude, toLongitude]);
+		if (allCoords.length === 0) return;
 
-    useEffect(() => {
-        let timeoutId = null;
-        if (pointA === undefined && pointB === undefined) return;
+		const lons = allCoords.map((c) => c[0]);
+		const lats = allCoords.map((c) => c[1]);
+		const minLon = Math.min(...lons);
+		const maxLon = Math.max(...lons);
+		const minLat = Math.min(...lats);
+		const maxLat = Math.max(...lats);
 
-        const lat = pointA?.latitude && pointB?.latitude ? pointA.latitude / 2 + pointB.latitude / 2 : undefined;
-        const long = pointA?.longitude && pointB?.longitude ? pointA.longitude / 2 + pointB.longitude / 2 : undefined;
+		cameraRef.current.fitBounds([minLon, minLat], [maxLon, maxLat], 50, 1000);
+	}, [pointA, pointB, routeCoordinates]);
 
-        const delayFetchLocationData = () => {
-            clearTimeout(timeoutId!);
-            timeoutId = setTimeout(() => {
-                if (mapRef.current && distance !== 0 && lat && long) {
-                    mapRef.current.animateToRegion(
-                        {
-                            latitude: lat,
-                            longitude: long,
-                            latitudeDelta: distance / 85,
-                            longitudeDelta: distance / 85,
-                        },
-                        1000
-                    );
-                }
-            }, 500);
-        };
+	return (
+		<View style={tw`h-full`}>
+			<MapView
+				style={{ flex: 1 }}
+				mapStyle="https://tiles.openfreemap.org/styles/liberty" // OpenFreeMap tiles for roads & features
+			>
+				<Camera
+					ref={cameraRef}
+					centerCoordinate={[90.3563, 23.685]} // [longitude, latitude]
+					zoomLevel={5} // adjust zoom as needed
+				/>
 
-        delayFetchLocationData();
+				{routeCoordinates.length > 0 && (
+					<ShapeSource
+						id="routeLine"
+						shape={{
+							type: "Feature",
+							geometry: {
+								type: "LineString",
+								coordinates: routeCoordinates,
+							},
+							properties: {},
+						}}
+					>
+						<LineLayer
+							id="routeLineLayer"
+							style={{
+								lineWidth: 4,
+								lineJoin: "round",
+								lineCap: "round",
+							}}
+						/>
+					</ShapeSource>
+				)}
 
-        return () => {
-            clearTimeout(timeoutId!);
-        };
-    }, [pointA, pointB, distance]);
-
-    useEffect(() => {
-        const polylineCoordinates = polyline.split(";").map((point) => {
-            const [latitude, longitude] = point.split(",");
-            return {
-                latitude: parseFloat(latitude),
-                longitude: parseFloat(longitude),
-            };
-        });
-        if (polyline !== "") setRouteCoordinates(polylineCoordinates);
-    }, [polyline]);
-
-    return (
-        <View style={tw`h-full`}>
-            <MapView
-                ref={mapRef}
-                style={tw`flex-1`}
-                initialRegion={{
-                    latitude: 24.580115,
-                    longitude: 90.397142,
-                    latitudeDelta: 10,
-                    longitudeDelta: 10,
-                }}
-            >
-                {pointA !== undefined && <Marker coordinate={pointA} title="Start" />}
-                {pointB !== undefined && <Marker coordinate={pointB} title="End" />}
-                {polyline !== "" && <Polyline coordinates={routeCoordinates} strokeWidth={8} strokeColor="#000000" />}
-            </MapView>
-        </View>
-    );
+				{pointA && !(pointA[0] === 0 && pointA[1] === 0) && (
+					<PointAnnotation id="marker-1" coordinate={pointA}>
+						<View />
+					</PointAnnotation>
+				)}
+				{pointB && !(pointB[0] === 0 && pointB[1] === 0) && (
+					<PointAnnotation id="marker-2" coordinate={pointB}>
+						<View />
+					</PointAnnotation>
+				)}
+			</MapView>
+		</View>
+	);
 };
 
 export default MapScreen;
