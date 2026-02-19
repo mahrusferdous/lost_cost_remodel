@@ -1,120 +1,75 @@
 import React, { useEffect, useRef, useState } from "react";
-import tw from "tailwind-react-native-classnames";
-import { View } from "react-native";
-import { MapView, PointAnnotation, ShapeSource, LineLayer, Camera } from "@maplibre/maplibre-react-native";
+import { View, StyleSheet } from "react-native";
+import MapView, { Marker, Polyline, LatLng } from "react-native-maps";
 
 interface MapScreenProps {
-	fromLongitude: number;
 	fromLatitude: number;
-	toLongitude: number;
+	fromLongitude: number;
 	toLatitude: number;
-	polyline: string;
+	toLongitude: number;
+	polyline: string; // "lat,lon;lat,lon;..."
 }
 
-const MapScreen = ({ fromLongitude, fromLatitude, toLongitude, toLatitude, polyline }: MapScreenProps) => {
-	const [routeCoordinates, setRouteCoordinates] = useState<number[][]>([]);
-	const [pointA, setPointA] = useState<[number, number] | null>(null);
-	const [pointB, setPointB] = useState<[number, number] | null>(null);
-	const [cameraState, setCameraState] = useState<{ center: [number, number]; zoom: number } | null>(null);
+const MapScreen = ({ fromLatitude, fromLongitude, toLatitude, toLongitude, polyline }: MapScreenProps) => {
+	const mapRef = useRef<MapView>(null);
+	const [routeCoordinates, setRouteCoordinates] = useState<LatLng[]>([]);
 
-	const cameraRef = useRef<any>(null);
-
-	// Set points
-	useEffect(() => {
-		setPointA([fromLongitude, fromLatitude]);
-		setPointB([toLongitude, toLatitude]);
-	}, [fromLongitude, fromLatitude, toLongitude, toLatitude]);
-
-	// Parse polyline into coordinates
 	useEffect(() => {
 		if (!polyline) return;
-
-		const coords: number[][] = polyline
+		const coords: LatLng[] = polyline
 			.split(";")
-			.map((point) => {
-				const [lat, lon] = point.split(",");
-				const latNum = parseFloat(lat);
-				const lonNum = parseFloat(lon);
-				if (isNaN(latNum) || isNaN(lonNum)) return null;
-				return [lonNum, latNum]; // MapLibre expects [longitude, latitude]
+			.map((p) => {
+				const [lat, lon] = p.split(",");
+				return { latitude: parseFloat(lat), longitude: parseFloat(lon) };
 			})
-			.filter(Boolean) as number[][];
-
+			.filter((c) => !isNaN(c.latitude) && !isNaN(c.longitude));
 		setRouteCoordinates(coords);
 	}, [polyline]);
 
 	useEffect(() => {
-		if (!cameraRef.current) return;
+		if (!mapRef.current) return;
 
-		let allCoords: number[][] = [];
-		if (pointA) allCoords.push(pointA);
-		if (pointB) allCoords.push(pointB);
-		allCoords = allCoords.concat(routeCoordinates);
+		const allCoords: LatLng[] = [
+			{ latitude: fromLatitude, longitude: fromLongitude },
+			{ latitude: toLatitude, longitude: toLongitude },
+			...routeCoordinates,
+		].filter((c) => !(c.latitude === 0 && c.longitude === 0));
 
 		if (allCoords.length === 0) return;
 
-		const lons = allCoords.map((c) => c[0]);
-		const lats = allCoords.map((c) => c[1]);
-		const minLon = Math.min(...lons);
-		const maxLon = Math.max(...lons);
-		const minLat = Math.min(...lats);
-		const maxLat = Math.max(...lats);
-
-		// Use a small timeout to ensure map is ready before fitBounds
 		setTimeout(() => {
-			cameraRef.current.fitBounds([minLon, minLat], [maxLon, maxLat], 50, 1000);
+			mapRef.current?.fitToCoordinates(allCoords, {
+				edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
+				animated: true,
+			});
 		}, 100);
-	}, [pointA, pointB, routeCoordinates]);
+	}, [fromLatitude, fromLongitude, toLatitude, toLongitude, routeCoordinates]);
 
 	return (
-		<View style={tw`h-full`}>
+		<View style={styles.container}>
 			<MapView
-				style={{ flex: 1 }}
-				mapStyle="https://tiles.openfreemap.org/styles/liberty"
-				onRegionDidChange={(region) => {
-					// Save camera state if user zooms or pans
-					setCameraState({ center: region.center, zoom: region.zoom });
+				ref={mapRef}
+				style={styles.map}
+				initialRegion={{
+					latitude: 23.685, // Bangladesh center
+					longitude: 90.3563,
+					latitudeDelta: 10,
+					longitudeDelta: 10,
 				}}
 			>
-				<Camera
-					ref={cameraRef}
-					centerCoordinate={cameraState ? cameraState.center : [90.3563, 23.685]}
-					zoomLevel={cameraState ? cameraState.zoom : 5}
-				/>
-
+				<Marker coordinate={{ latitude: fromLatitude, longitude: fromLongitude }} title="Start" />
+				<Marker coordinate={{ latitude: toLatitude, longitude: toLongitude }} title="End" />
 				{routeCoordinates.length > 0 && (
-					<ShapeSource
-						id="routeLine"
-						shape={{
-							type: "Feature",
-							geometry: { type: "LineString", coordinates: routeCoordinates },
-							properties: {},
-						}}
-					>
-						<LineLayer
-							id="routeLineLayer"
-							style={{
-								lineWidth: 4,
-								lineJoin: "round",
-								lineCap: "round",
-							}}
-						/>
-					</ShapeSource>
-				)}
-
-				{pointA && !(pointA[0] === 0 && pointA[1] === 0) && (
-					<PointAnnotation id="marker-1" coordinate={pointA}>
-						<View />
-					</PointAnnotation>
-				)}
-				{pointB && !(pointB[0] === 0 && pointB[1] === 0) && (
-					<PointAnnotation id="marker-2" coordinate={pointB}>
-						<View />
-					</PointAnnotation>
+					<Polyline coordinates={routeCoordinates} strokeColor="#3b82f6" strokeWidth={4} />
 				)}
 			</MapView>
 		</View>
 	);
 };
+
+const styles = StyleSheet.create({
+	container: { flex: 1 },
+	map: { flex: 1 },
+});
 
 export default MapScreen;
