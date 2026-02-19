@@ -12,91 +12,91 @@ import axios from "axios";
 import { lostCostURL, envURL } from "@env";
 
 const MainScreen: React.FC = () => {
-    const [fromLongitude, setFromLongitude] = useState<number>(0);
-    const [fromLatitude, setFromLatitude] = useState<number>(0);
-    const [toLongitude, setToLongitude] = useState<number>(0);
-    const [toLatitude, setToLatitude] = useState<number>(0);
+	const [fromLongitude, setFromLongitude] = useState<number>(0);
+	const [fromLatitude, setFromLatitude] = useState<number>(0);
+	const [toLongitude, setToLongitude] = useState<number>(0);
+	const [toLatitude, setToLatitude] = useState<number>(0);
 
-    const [color, setColor] = useState("");
-    const [boardStatus, setBoardStatus] = useState(false);
-    const [filteredData, setFilteredData] = useState<any[]>([]);
-    const [data, setData] = useState<any>(undefined);
-    const [polyline, setPolyline] = useState<string>();
-    const [points, setPoints] = useState<String>("");
-    const [nameA, setNameA] = useState<string>("");
-    const [nameB, setNameB] = useState<string>("");
+	const [color, setColor] = useState("");
+	const [boardStatus, setBoardStatus] = useState(false);
+	const [filteredData, setFilteredData] = useState<any[]>([]);
+	const [data, setData] = useState<any>(undefined);
+	const [polyline, setPolyline] = useState<string>();
+	const [points, setPoints] = useState<String>("");
+	const [nameA, setNameA] = useState<string>("");
+	const [nameB, setNameB] = useState<string>("");
 
-    useEffect(() => {
-        const fetchLocationData = async () => {
-            try {
-                const url1 = `${envURL}/route/calculate`;
-                const url2 = `${envURL}/route/polyline`;
-                const data = {
-                    fromLat: fromLatitude,
-                    fromLon: fromLongitude,
-                    toLat: toLatitude,
-                    toLon: toLongitude,
-                };
+	useEffect(() => {
+		const fetchLocationData = async () => {
+			try {
+				const url1 = `${envURL}/route/calculate`;
+				const url2 = `${envURL}/route/polyline`;
+				const data = {
+					fromLat: fromLatitude,
+					fromLon: fromLongitude,
+					toLat: toLatitude,
+					toLon: toLongitude,
+				};
 
-                const response = await axios.post(url1, data);
-                const response2 = await axios.post(url2, data);
-                setData(response.data.all[0]);
-                setPolyline(response2.data);
-            } catch (error) {
-                console.log(error);
-            }
-        };
+				const response = await axios.post(url1, data);
+				const response2 = await axios.post(url2, data);
+				setData(response.data?.paths?.[0]?.points?.coordinates || response.data.all[0]);
+				setPolyline(response2.data);
+			} catch (error) {
+				console.log(error);
+			}
+		};
 
-        if (fromLatitude && fromLongitude && toLatitude && toLongitude) fetchLocationData();
-    }, [fromLatitude, fromLongitude, toLatitude, toLongitude]);
+		if (fromLatitude && fromLongitude && toLatitude && toLongitude) fetchLocationData();
+	}, [fromLatitude, fromLongitude, toLatitude, toLongitude]);
 
-    useEffect(() => {
-        filteredData.length > 0 ? setBoardStatus(true) : setBoardStatus(false);
-    }, [filteredData]);
+	useEffect(() => {
+		filteredData.length > 0 ? setBoardStatus(true) : setBoardStatus(false);
+	}, [filteredData]);
 
-    return (
-        <SafeAreaView style={tw`bg-white h-full w-full`}>
-            <StatusBar backgroundColor="black" barStyle="light-content" />
-            <View style={boardStatus ? tw`h-0` : tw`h-1/2`}>
-                <Map
-                    fromLongitude={fromLongitude}
-                    fromLatitude={fromLatitude}
-                    toLongitude={toLongitude}
-                    toLatitude={toLatitude}
-                    polyline={polyline || ""}
-                />
-                <DetailsPopup />
-            </View>
-            <View style={boardStatus ? tw`h-1/2` : tw`h-0`}>
-                <DataView
-                    setBoardStatus={setBoardStatus}
-                    filteredData={filteredData}
-                    setToLongitude={setToLongitude}
-                    setToLatitude={setToLatitude}
-                    setFromLongitude={setFromLongitude}
-                    setFromLatitude={setFromLatitude}
-                    points={points}
-                    setNameA={setNameA}
-                    setNameB={setNameB}
-                />
-            </View>
-            <View style={tw`h-1/2`}>
-                <ScrollView>
-                    <RidesButtons color={color} setColor={setColor} />
-                    <Cost data={data} color={color} />
-                    <InputTextField
-                        setFilteredData={setFilteredData}
-                        setPoints={setPoints}
-                        setFromLongitude={setFromLongitude}
-                        setFromLatitude={setFromLatitude}
-                        nameA={nameA}
-                        nameB={nameB}
-                    />
-                </ScrollView>
-                {/* <GoogleAds /> */}
-            </View>
-        </SafeAreaView>
-    );
+	return (
+		<SafeAreaView style={tw`bg-white h-full w-full`}>
+			<StatusBar backgroundColor="black" barStyle="light-content" />
+			<View style={boardStatus ? tw`h-0` : tw`h-1/2`}>
+				<Map
+					fromLongitude={fromLongitude}
+					fromLatitude={fromLatitude}
+					toLongitude={toLongitude}
+					toLatitude={toLatitude}
+					polyline={polyline || ""}
+				/>
+				<DetailsPopup />
+			</View>
+			<View style={boardStatus ? tw`h-1/2` : tw`h-0`}>
+				<DataView
+					setBoardStatus={setBoardStatus}
+					filteredData={filteredData}
+					setToLongitude={setToLongitude}
+					setToLatitude={setToLatitude}
+					setFromLongitude={setFromLongitude}
+					setFromLatitude={setFromLatitude}
+					points={points}
+					setNameA={setNameA}
+					setNameB={setNameB}
+				/>
+			</View>
+			<View style={tw`h-1/2`}>
+				<ScrollView>
+					<RidesButtons color={color} setColor={setColor} />
+					<Cost data={data} color={color} />
+					<InputTextField
+						setFilteredData={setFilteredData}
+						setPoints={setPoints}
+						setFromLongitude={setFromLongitude}
+						setFromLatitude={setFromLatitude}
+						nameA={nameA}
+						nameB={nameB}
+					/>
+				</ScrollView>
+				{/* <GoogleAds /> */}
+			</View>
+		</SafeAreaView>
+	);
 };
 
 export default MainScreen;
