@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { View, StyleSheet } from "react-native";
-import MapView, { Marker, Polyline, LatLng } from "react-native-maps";
+import MapView, { Marker, Polyline, LatLng, UrlTile } from "react-native-maps";
+import { MAPTILER_KEY } from "@env";
 
 interface MapScreenProps {
 	fromLatitude: number;
@@ -57,10 +58,14 @@ const MapScreen = ({ fromLatitude, fromLongitude, toLatitude, toLongitude, polyl
 					longitudeDelta: 10,
 				}}
 			>
+				<UrlTile
+					urlTemplate={`https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=${MAPTILER_KEY}`}
+					maximumZ={20}
+				/>
 				<Marker coordinate={{ latitude: fromLatitude, longitude: fromLongitude }} title="Start" />
 				<Marker coordinate={{ latitude: toLatitude, longitude: toLongitude }} title="End" />
 				{routeCoordinates.length > 0 && (
-					<Polyline coordinates={routeCoordinates} strokeColor="#3b82f6" strokeWidth={4} />
+					<Polyline coordinates={routeCoordinates} strokeColor="#3b82f6" strokeWidth={4} zIndex={1} />
 				)}
 			</MapView>
 		</View>
