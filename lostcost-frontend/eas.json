@@ -1,22 +1,25 @@
 {
-    "cli": {
-        "version": ">= 3.13.3"
-    },
-    "build": {
-        "development": {
-            "developmentClient": true,
-            "distribution": "internal"
-        },
-        "preview": {
-            "distribution": "internal"
-        },
-        "production": {}
-    },
-    "submit": {
-        "production": {
-            "android": {
-                "serviceAccountKeyPath": "../build/pc-api-6744645611181434692-709-2a1553daba28.json"
-            }
-        }
-    }
+	"cli": {
+		"version": ">= 3.13.3"
+	},
+	"build": {
+		"development": {
+			"developmentClient": true,
+			"distribution": "internal"
+		},
+		"preview": {
+			"distribution": "internal",
+			"android": {
+				"gradleCommand": ":app:assembleRelease"
+			}
+		},
+		"production": {}
+	},
+	"submit": {
+		"production": {
+			"android": {
+				"serviceAccountKeyPath": "../build/pc-api-6744645611181434692-709-2a1553daba28.json"
+			}
+		}
+	}
 }
